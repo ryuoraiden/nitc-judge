@@ -1,0 +1,20 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "graph",
+    "adjacency list"
+  ],
+  "estimated_minutes": 8,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "graphInit must clear deg[] for indices 0..n inclusive, because vertices are numbered from 1 and index n is a real vertex.",
+    "addEdge is one line: g->adj[u][g->deg[u]++] = v; The post-increment stores at the current end and then grows the list.",
+    "Write the comparator as (x > y) - (x < y) rather than x - y. The subtraction overflows for large values; the comparison form never does."
+  ],
+  "prereqs": [],
+  "source": "Representation used throughout NITC_Lab_S3_DSA Week 3 - Graphs",
+  "id": "c-s3.04-bfs.p01-adjacency-list",
+  "title": "Build an adjacency list",
+  "mode": "function"
+}

@@ -1,0 +1,4 @@
+{
+  "title": "BFS and shortest paths",
+  "description": "Adjacency lists, then BFS order, distances, path reconstruction, and finally the lexicographic rule from Week 4 Practice Question 1."
+}

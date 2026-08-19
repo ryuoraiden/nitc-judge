@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NITC Practice Judge</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+<div class="dash">
+  <h1>NITC Practice Judge</h1>
+  <div class="sub">{{ total_solved }} of {{ total_problems }} solved</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width: {{ (100 * total_solved / total_problems) if total_problems else 0 }}%"></div>
+  </div>
+
+  {% if due %}
+  <div class="due-box">
+    <h3>Due for review ({{ due|length }})</h3>
+    <div class="plist">
+      {% for p in due %}
+      <div class="pitem"><span class="status">&#8635;</span>
+        <a class="name" href="{{ url_for('problem_page', problem_id=p.id) }}">{{ p.title }}</a>
+        <span class="badge badge-topic">{{ p.unit_title }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% for pack in packs %}
+    <div class="pack-head">{{ pack.title }}</div>
+    <div class="pack-desc">{{ pack.description }}</div>
+    {% for unit in pack.units %}
+      {% set done = unit.problems | map(attribute='id') | select('in', solved_ids) | list | length %}
+      <div class="unit">
+        <h2>{{ unit.title }}
+          <span class="badge badge-time">{{ done }}/{{ unit.problems | length }}</span>
+        </h2>
+        <div class="unit-desc">{{ unit.description }}</div>
+        <div class="plist">
+          {% for p in unit.problems %}
+            {% set st = states.get(p.id) %}
+            <div class="pitem">
+              <span class="status">
+                {% if st and st.solved %}<span style="color:var(--green)">&#10003;</span>
+                {% elif st and st.attempts %}<span style="color:var(--orange)">&#8226;</span>
+                {% else %}<span style="color:var(--text-dim)">&#9675;</span>{% endif %}
+              </span>
+              <a class="name" href="{{ url_for('problem_page', problem_id=p.id) }}">{{ p.title }}</a>
+              <span class="badge badge-{{ p.difficulty }}">{{ p.difficulty }}</span>
+              <span class="badge badge-mode">{{ p.mode }}</span>
+              <span class="badge badge-time">{{ p.estimated_minutes }} min</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  {% if not packs %}
+    <p style="color:var(--text-dim)">No content loaded. Add problem folders under <code>content/</code>.</p>
+  {% endif %}
+</div>
+</body>
+</html>

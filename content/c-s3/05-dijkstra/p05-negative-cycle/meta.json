@@ -1,0 +1,23 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "bellman-ford",
+    "negative cycle",
+    "shortest path"
+  ],
+  "estimated_minutes": 20,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Dijkstra cannot be rescued here. Its correctness depends on non-negative weights, so you need Bellman-Ford, which relaxes every edge repeatedly instead of committing to a vertex.",
+    "Initialise every dist to 0 rather than picking a source. That is the same as adding an imaginary vertex with a free edge to everywhere, and it makes cycles in ANY component detectable.",
+    "After n-1 full passes all genuine shortest paths have settled. Run one more pass: if any edge can still be relaxed, a negative cycle exists."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p01-dijkstra-matrix"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 4 - SSSP, Practice Question 4 (optional on the sheet)",
+  "id": "c-s3.05-dijkstra.p05-negative-cycle",
+  "title": "Practice Question 4: detect a negative cycle",
+  "mode": "program"
+}

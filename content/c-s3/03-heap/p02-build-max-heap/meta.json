@@ -1,0 +1,21 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "heap"
+  ],
+  "estimated_minutes": 6,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Every leaf is already a valid heap of one element, so there is no point calling maxHeapify on any of them.",
+    "With n elements the leaves are exactly the indices from n/2 onwards, so the last node worth fixing is n/2 - 1.",
+    "Run the loop downwards, from n/2 - 1 to 0. maxHeapify requires its children to be valid already, so you must fix the bottom before the top."
+  ],
+  "prereqs": [
+    "c-s3.03-heap.p01-max-heapify"
+  ],
+  "source": "Rebuilt from NITC_Lab_S2 Lab11 P1",
+  "id": "c-s3.03-heap.p02-build-max-heap",
+  "title": "buildMaxHeap: one loop, two decisions",
+  "mode": "function"
+}

@@ -1,0 +1,24 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "bfs",
+    "queue",
+    "graph"
+  ],
+  "estimated_minutes": 10,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The queue is just an array with two indices: head and tail. head < tail means 'not empty'. No wraparound needed - each vertex is enqueued at most once, so MAXV slots are always enough.",
+    "Append u to order[] when you DEQUEUE it, and mark neighbours visited when you ENQUEUE them.",
+    "If you mark visited on dequeue instead of on enqueue, a vertex with two in-edges gets queued twice and appears twice in the output."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p01-adjacency-list",
+    "c-s3.02-queue.p01-array-queue"
+  ],
+  "source": "Rebuilt from NITC_Lab_S3_DSA Week 3 - Graphs (BFSTraversal)",
+  "id": "c-s3.04-bfs.p02-bfs-order",
+  "title": "BFS visit order",
+  "mode": "function"
+}

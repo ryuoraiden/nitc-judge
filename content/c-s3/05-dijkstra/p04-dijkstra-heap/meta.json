@@ -1,0 +1,24 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "dijkstra",
+    "heap",
+    "priority queue"
+  ],
+  "estimated_minutes": 18,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The structure is the same as the matrix version. The only change is how you choose the next vertex: extract from the heap instead of scanning.",
+    "Whenever you improve dist[v], insert a fresh (dist[v], v) entry. Do not try to find and modify the old one - just leave it there.",
+    "The stale check is one line at the top of the loop: if (it.key > dist[u]) continue; Without it you re-expand vertices and the work blows up."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p01-dijkstra-matrix",
+    "c-s3.03-heap.p04-min-heap-pq"
+  ],
+  "source": "Combines Week 4 SSSP with the Lab 11 priority queue",
+  "id": "c-s3.05-dijkstra.p04-dijkstra-heap",
+  "title": "Dijkstra with a priority queue",
+  "mode": "function"
+}

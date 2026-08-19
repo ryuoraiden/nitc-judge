@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "dijkstra",
+    "shortest path"
+  ],
+  "estimated_minutes": 20,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "You already wrote both halves in the last two problems. This is assembling them into one main() plus the input reading.",
+    "k arrives 1-based. Decrement it once, right after reading, and then think purely 0-based for the rest of the program.",
+    "Test 5 has a source with no outgoing edges at all except backwards - make sure your loop terminates cleanly when nothing is reachable."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p02-min-total-time"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 4 - SSSP, Practice Question 2 (verbatim)",
+  "id": "c-s3.05-dijkstra.p03-practice-q2",
+  "title": "Practice Question 2 (full)",
+  "mode": "program"
+}

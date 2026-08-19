@@ -1,0 +1,20 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "heap",
+    "recursion"
+  ],
+  "estimated_minutes": 8,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Compute left = 2*i+1 and right = 2*i+2 first, then guard every access with 'index < n'. A child that does not exist must never be compared.",
+    "Track the winner in a variable called largest, starting at i. Compare against left, then against largest again for right - not against a[i] twice, or you can miss the right child.",
+    "After swapping, recurse on largest, not on i. The displaced value moved down to index largest and may still violate the property there."
+  ],
+  "prereqs": [],
+  "source": "Rebuilt from NITC_Lab_S2 Lab11 P1 (bank loan heapsort), heapify only",
+  "id": "c-s3.03-heap.p01-max-heapify",
+  "title": "maxHeapify: fix exactly one violation",
+  "mode": "function"
+}

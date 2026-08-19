@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bfs",
+    "shortest path",
+    "lexicographic order"
+  ],
+  "estimated_minutes": 14,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Do not write a path comparison. Plain BFS with parent recording, over adjacency lists that are already sorted, is the entire answer.",
+    "Think about the order vertices enter the queue. Within one BFS level, is that order related to the lexicographic order of their paths?",
+    "Induction: if level-d vertices enter the queue in lexicographic order of their paths, then expanding them in that order, each with ascending neighbours, makes level d+1 enter in lexicographic order too."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p04-bfs-path"
+  ],
+  "source": "Core of NITC_Lab_S3_DSA Week 4 Practice Question 1",
+  "id": "c-s3.04-bfs.p05-lex-smallest-paths",
+  "title": "Lexicographically smallest shortest paths",
+  "mode": "function"
+}

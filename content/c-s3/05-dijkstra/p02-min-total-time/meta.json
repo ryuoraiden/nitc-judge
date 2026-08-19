@@ -1,0 +1,22 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "dijkstra",
+    "shortest path"
+  ],
+  "estimated_minutes": 6,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The teams all leave at once and travel in parallel. Nobody waits for anybody else, so the total elapsed time is decided by one location only.",
+    "Everything is supplied once the SLOWEST location has been reached - so the answer is the maximum of dist[], not the sum.",
+    "Check reachability before taking the maximum, or an INF entry becomes your answer. Any unreachable vertex means the whole thing returns -1."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p01-dijkstra-matrix"
+  ],
+  "source": "Core of NITC_Lab_S3_DSA Week 4 Practice Question 2",
+  "id": "c-s3.05-dijkstra.p02-min-total-time",
+  "title": "Minimum total time (the Q2 rule)",
+  "mode": "function"
+}

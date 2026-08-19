@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "queue",
+    "stack",
+    "amortized analysis"
+  ],
+  "estimated_minutes": 14,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Enqueue is the easy half: push onto B, done. All the thinking lives in dequeue.",
+    "Popping every element off B and pushing each onto F reverses them. A reversed LIFO is a FIFO - that single observation is the whole trick.",
+    "Only pour when F is empty. If you pour on every dequeue you get the right answers but ruin the running time, because elements move back and forth repeatedly instead of crossing once."
+  ],
+  "prereqs": [
+    "c-s3.01-stack.p03-linked-stack",
+    "c-s3.02-queue.p01-array-queue"
+  ],
+  "source": "Matches QUEUE.h from NITC_Lab_S3_DSA Week 3 - Graphs",
+  "id": "c-s3.02-queue.p03-queue-two-stacks",
+  "title": "A queue built from two stacks",
+  "mode": "function"
+}

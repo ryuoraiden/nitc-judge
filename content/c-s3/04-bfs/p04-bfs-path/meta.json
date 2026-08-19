@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bfs",
+    "shortest path",
+    "path reconstruction"
+  ],
+  "estimated_minutes": 12,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "During BFS record parent[v] = u at the same moment you mark v discovered. One extra line inside the loop you already wrote.",
+    "Walking parent[] from t gives you the path backwards. Collect it into a temporary array, then copy it into path[] in reverse.",
+    "Use parent[s] = -1 as the terminator, and stop the walk when x becomes -1. The loop 'for (int x = t; x != -1; x = parent[x])' does the whole traversal."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p03-bfs-distances"
+  ],
+  "source": "Foundation for Week 4 Practice Question 1",
+  "id": "c-s3.04-bfs.p04-bfs-path",
+  "title": "Reconstruct the path with a parent array",
+  "mode": "function"
+}

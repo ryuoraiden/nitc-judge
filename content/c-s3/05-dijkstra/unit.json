@@ -1,0 +1,4 @@
+{
+  "title": "Dijkstra and weighted shortest paths",
+  "description": "Weighted graphs, where BFS stops working. The O(V^2) version first, then Week 4 Practice Question 2, then the heap-backed version."
+}

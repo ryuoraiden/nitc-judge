@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "dijkstra",
+    "shortest path",
+    "greedy"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Two arrays: dist[] for best-known costs and done[] for vertices already settled. Never revisit a settled vertex.",
+    "Finding the minimum is a plain linear scan over unfinished vertices: if (!done[i] && (u == -1 || dist[i] < dist[u])) u = i;",
+    "Guard the relaxation with w[u][v] == NOEDGE. 999 is a marker meaning 'no edge', so treating it as a real cost invents roads that do not exist."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p03-bfs-distances"
+  ],
+  "source": "Core of NITC_Lab_S3_DSA Week 4 Practice Question 2",
+  "id": "c-s3.05-dijkstra.p01-dijkstra-matrix",
+  "title": "Dijkstra on an adjacency matrix",
+  "mode": "function"
+}

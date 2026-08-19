@@ -1,0 +1,6 @@
+{
+  "id": "c-s3",
+  "title": "S3 DSA - Week 4 SSSP ladder",
+  "description": "Stack, Queue and Heap rebuilt from scratch, then BFS and Dijkstra on top of them, ending at the two Week 4 practice questions. Each rung is small on purpose.",
+  "language": "c"
+}

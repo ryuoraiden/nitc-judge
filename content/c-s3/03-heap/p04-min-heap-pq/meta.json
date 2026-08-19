@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "heap",
+    "priority queue"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Insert appends at index size and bubbles UP; extract takes index 0, moves the LAST item into the hole, and sifts DOWN. Two directions, two loops.",
+    "parent(i) = (i-1)/2 with integer division. Stop bubbling when i reaches 0 or when the item no longer beats its parent.",
+    "Write the before() comparison once and call it everywhere. Inlining the comparison in three places is how the tie-break rule ends up applied in only two of them."
+  ],
+  "prereqs": [
+    "c-s3.03-heap.p01-max-heapify"
+  ],
+  "source": "Rebuilt from NITC_Lab_S2 Lab11 P3/P5 (ticket and patient priority queues)",
+  "id": "c-s3.03-heap.p04-min-heap-pq",
+  "title": "Min-heap priority queue (the one Dijkstra uses)",
+  "mode": "function"
+}

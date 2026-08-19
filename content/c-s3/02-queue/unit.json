@@ -1,0 +1,4 @@
+{
+  "title": "Queue",
+  "description": "The queue BFS runs on. Build the naive one, feel where it breaks, then fix it with wraparound."
+}

@@ -1,0 +1,4 @@
+{
+  "title": "Stack",
+  "description": "The array stack you will reuse for DFS and expression work. Small capacity so overflow is easy to reach."
+}

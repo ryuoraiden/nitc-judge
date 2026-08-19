@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "queue",
+    "arrays",
+    "modular arithmetic"
+  ],
+  "estimated_minutes": 10,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Keep front and size instead of front and rear. size makes empty and full trivially distinguishable, which front == rear alone cannot do.",
+    "The slot to write into is (front + size) % CAP. Derive it: front is where element 0 sits, so element number 'size' sits size steps later, modulo CAP.",
+    "dequeue advances front with q->front = (q->front + 1) % CAP and decrements size. The value in the vacated slot does not need clearing."
+  ],
+  "prereqs": [
+    "c-s3.02-queue.p01-array-queue"
+  ],
+  "source": "Rebuilt from NITC_Lab_S2 Lab9 P5 (circular student queue)",
+  "id": "c-s3.02-queue.p02-circular-queue",
+  "title": "Circular queue: reuse the stranded slots",
+  "mode": "function"
+}

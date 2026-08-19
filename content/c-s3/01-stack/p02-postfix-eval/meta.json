@@ -1,0 +1,22 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "stack",
+    "parsing"
+  ],
+  "estimated_minutes": 10,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "One pass over the string is enough. Track your position with a pointer and advance it yourself rather than using a for loop over an index.",
+    "Operand digits can be multi-digit: keep consuming while isdigit() holds, building value = value * 10 + (*p - '0').",
+    "Order matters for - and /. The first value you pop is the RIGHT operand: for '7 3 -' you pop 3, then 7, and compute 7 - 3."
+  ],
+  "prereqs": [
+    "c-s3.01-stack.p01-array-stack"
+  ],
+  "source": "Rebuilt from NITC_Lab_S2 Lab10 P5 (expression trees)",
+  "id": "c-s3.01-stack.p02-postfix-eval",
+  "title": "Evaluate a postfix expression",
+  "mode": "function"
+}

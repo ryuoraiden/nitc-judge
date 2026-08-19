@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "stack",
+    "linked list",
+    "pointers"
+  ],
+  "estimated_minutes": 12,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "An empty linked stack is NULL. That is why every operation takes the top pointer and returns the (possibly new) top pointer.",
+    "PUSH is three lines: malloc, set key and next = s, return the new node. The new node becomes the head, so nothing else needs to move.",
+    "POP must save s->next into a local variable BEFORE calling free(s). Reading s->next after freeing s is use-after-free - it often appears to work, which is what makes it dangerous."
+  ],
+  "prereqs": [
+    "c-s3.01-stack.p01-array-stack"
+  ],
+  "source": "Matches STACK.h from NITC_Lab_S3_DSA Week 3 - Graphs",
+  "id": "c-s3.01-stack.p03-linked-stack",
+  "title": "Linked stack, Week 3 style",
+  "mode": "function"
+}

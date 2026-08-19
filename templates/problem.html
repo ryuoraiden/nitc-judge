@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ problem.title }} &mdash; NITC Judge</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <a class="logo" href="{{ url_for('index') }}">NITC JUDGE</a>
+      <span class="sep">/</span>
+      <span class="prob-title">{{ problem.title }}</span>
+      {% if state and state.solved %}<span class="badge badge-easy">solved</span>{% endif %}
+    </div>
+    <div class="topbar-right">
+      {% if prev_id %}<a class="btn" href="{{ url_for('problem_page', problem_id=prev_id) }}">&larr;</a>{% endif %}
+      {% if next_id %}<a class="btn" href="{{ url_for('problem_page', problem_id=next_id) }}">&rarr;</a>{% endif %}
+      <button class="btn" id="btn-reset" title="Wipe the editor back to the starter stub">Reset</button>
+      <button class="btn btn-run" id="btn-run">Run <span class="editor-hint">Ctrl+&crarr;</span></button>
+      <button class="btn btn-submit" id="btn-submit">Submit</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="panel-left" id="panel-left">
+      <div class="tabs">
+        <button class="tab active" data-pane="pane-statement">Statement</button>
+        {% if problem.mode == 'function' %}
+        <button class="tab" data-pane="pane-header">{{ problem.header_name }}</button>
+        {% endif %}
+        <button class="tab" data-pane="pane-hints">Hints<span class="tab-badge">{{ hints_total }}</span></button>
+        <button class="tab" data-pane="pane-solution">Solution</button>
+        <button class="tab" data-pane="pane-history">History</button>
+      </div>
+
+      <div class="pane active md" id="pane-statement">
+        <div class="prob-badges">
+          <span class="badge badge-{{ problem.difficulty }}">{{ problem.difficulty }}</span>
+          <span class="badge badge-mode">{{ problem.mode }}</span>
+          <span class="badge badge-time">~{{ problem.estimated_minutes }} min</span>
+          {% for t in problem.topics %}<span class="badge badge-topic">{{ t }}</span>{% endfor %}
+        </div>
+        {{ statement_html | safe }}
+        {% if problem.source %}
+        <hr><p style="font-size:.78rem;color:var(--text-dim)">Source: {{ problem.source }}</p>
+        {% endif %}
+      </div>
+
+      {% if problem.mode == 'function' %}
+      <div class="pane md" id="pane-header">
+        <p style="font-size:.8rem;color:var(--text-dim)">
+          Read-only. Your file must <code>#include "{{ problem.header_name }}"</code>.
+          A hidden <code>main()</code> calls these functions.
+        </p>
+        <pre><code>{{ problem.header }}</code></pre>
+      </div>
+      {% endif %}
+
+      <div class="pane" id="pane-hints">
+        <div id="hints-box">
+          {% for h in hints %}<div class="hint">{{ h }}</div>{% endfor %}
+        </div>
+        {% if hints_total > hints|length %}
+          <button class="btn" id="btn-hint" style="margin-top:.6rem">Unlock next hint</button>
+        {% elif not hints %}
+          <div class="locked">No hints for this one.</div>
+        {% endif %}
+      </div>
+
+      <div class="pane md" id="pane-solution">
+        {% if solution_visible %}
+          <pre><code>{{ problem.solution }}</code></pre>
+        {% else %}
+          <div class="locked" id="solution-locked">
+            Locked.<br>Solve it, or make 3 real attempts, then it unlocks.<br><br>
+            <button class="btn" id="btn-reveal">Try to unlock</button>
+            <div id="reveal-msg" style="margin-top:.7rem;color:var(--orange);font-size:.8rem"></div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="pane" id="pane-history">
+        {% if recent %}
+          <div class="plist">
+          {% for s in recent %}
+            <div class="pitem">
+              <span class="badge {% if s.verdict == 'AC' %}badge-easy{% else %}badge-hard{% endif %}">{{ s.verdict }}</span>
+              <span class="name">{{ s.passed }}/{{ s.total }} tests &middot; {{ s.max_ms }} ms</span>
+              <span class="badge badge-time">{{ s.created_at.strftime('%d %b %H:%M') }}</span>
+            </div>
+          {% endfor %}
+          </div>
+        {% else %}
+          <div class="locked">No submissions yet.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="v-resizer" id="v-resizer"></div>
+
+    <div class="panel-right">
+      <div class="editor-header">
+        <span class="lang-tag">C</span>
+        <span class="editor-hint">
+          {% if problem.mode == 'function' %}implementation only &mdash; no main(){% else %}whole program including main(){% endif %}
+          &nbsp;&middot;&nbsp; Ctrl+Enter run &middot; Ctrl+Shift+Enter submit
+        </span>
+      </div>
+      <div class="editor-wrap"><textarea id="code" spellcheck="false">{{ code }}</textarea></div>
+
+      <div class="h-resizer" id="h-resizer"></div>
+
+      <div class="output" id="output">
+        <div class="tabs">
+          <button class="tab active" data-pane="out-tests">Tests</button>
+          <button class="tab" data-pane="out-custom">Custom input</button>
+          <button class="tab" data-pane="out-compiler">Compiler</button>
+        </div>
+        <div class="pane active out-body" id="out-tests">
+          <div style="color:var(--text-dim);font-size:.83rem">
+            Run to check the samples, Submit to run every test.
+          </div>
+        </div>
+        <div class="pane out-body" id="out-custom">
+          <textarea id="custom-input" spellcheck="false" placeholder="Type stdin here, then hit Run to execute against it instead of the samples."></textarea>
+          <div id="custom-result" style="margin-top:.6rem"></div>
+        </div>
+        <div class="pane out-body" id="out-compiler">
+          <div style="color:var(--text-dim);font-size:.83rem">gcc output appears here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.JUDGE = {
+  problemId: {{ problem.id | tojson }},
+  starter: {{ problem.starter | tojson }},
+  sampleCount: {{ problem.sample_tests | length }}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="{{ url_for('static', filename='judge.js') }}"></script>
+</body>
+</html>

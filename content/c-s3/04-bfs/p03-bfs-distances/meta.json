@@ -1,0 +1,22 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "bfs",
+    "shortest path"
+  ],
+  "estimated_minutes": 8,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "You do not need a separate visited[] array. dist[v] == -1 already means 'not discovered yet', so one array does both jobs.",
+    "The update is dist[v] = dist[u] + 1 at the moment you discover v, where u is the vertex you are currently expanding.",
+    "Initialise dist for indices 0..n so that vertex n is covered - vertices are 1-based here."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p02-bfs-order"
+  ],
+  "source": "Foundation for Week 4 Practice Question 1",
+  "id": "c-s3.04-bfs.p03-bfs-distances",
+  "title": "BFS distances (and why BFS gives shortest paths)",
+  "mode": "function"
+}

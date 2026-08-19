@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "heap",
+    "sorting"
+  ],
+  "estimated_minutes": 8,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Build the heap once, outside the loop. Rebuilding it every iteration is correct but throws away the whole point of the algorithm.",
+    "Each iteration: swap a[0] with a[end], then heapify the root over a SMALLER heap. The element you just parked at a[end] is finished.",
+    "The size argument to maxHeapify must be end, not n. Passing n drags the already-sorted tail back into the heap and the array never converges."
+  ],
+  "prereqs": [
+    "c-s3.03-heap.p02-build-max-heap"
+  ],
+  "source": "Rebuilt from NITC_Lab_S2 Lab11 P1/P2",
+  "id": "c-s3.03-heap.p03-heap-sort",
+  "title": "heapSort: sort by repeatedly evicting the root",
+  "mode": "function"
+}

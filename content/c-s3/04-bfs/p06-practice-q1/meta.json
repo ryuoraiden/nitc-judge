@@ -1,0 +1,24 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "bfs",
+    "shortest path",
+    "parsing",
+    "lexicographic order"
+  ],
+  "estimated_minutes": 25,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Split the job in three: parse, BFS, print. Get parsing working and print the adjacency lists back out before you write a line of BFS.",
+    "After scanf(\"%d\", &n) the newline remains in the buffer. Consume it with a getchar loop, or your first fgets returns an empty string.",
+    "Each line starts with the vertex number itself, so the FIRST token is the vertex and the rest are its neighbours. Sort those neighbours ascending, then it is exactly the previous problem."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p05-lex-smallest-paths"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 4 - SSSP, Practice Question 1 (verbatim)",
+  "id": "c-s3.04-bfs.p06-practice-q1",
+  "title": "Practice Question 1 (full)",
+  "mode": "program"
+}

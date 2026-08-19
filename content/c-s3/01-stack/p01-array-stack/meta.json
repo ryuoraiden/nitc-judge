@@ -1,0 +1,20 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "stack",
+    "arrays"
+  ],
+  "estimated_minutes": 8,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "top is an index into data[], not a count. Starting it at -1 makes push 'increment then store' and pop 'read then decrement'.",
+    "isFull is about the last usable index: with CAP slots the highest valid index is CAP-1, so the stack is full when top has reached it.",
+    "push should be s->data[++(s->top)] = value; and pop should be return s->data[(s->top)--]; - note pre- vs post-increment."
+  ],
+  "prereqs": [],
+  "source": "Rebuilt from NITC_Lab_S2 Lab9 P1 (library book stack)",
+  "id": "c-s3.01-stack.p01-array-stack",
+  "title": "Array stack: the six core operations",
+  "mode": "function"
+}

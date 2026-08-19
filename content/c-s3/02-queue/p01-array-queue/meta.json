@@ -1,0 +1,22 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "queue",
+    "arrays"
+  ],
+  "estimated_minutes": 8,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Two indices moving in the same direction: front chases rear. init to front=0, rear=-1 so that front > rear reads as empty.",
+    "enqueue is 'advance rear, then store'; dequeue is 'read at front, then advance front'. Mirror images of the stack's push and pop.",
+    "isFull here is only about rear hitting CAP-1. It does not care that slots before front are free - that is the flaw this problem exists to show."
+  ],
+  "prereqs": [
+    "c-s3.01-stack.p01-array-stack"
+  ],
+  "source": "Rebuilt from NITC_Lab_S2 Lab9 P2 (hospital patient queue)",
+  "id": "c-s3.02-queue.p01-array-queue",
+  "title": "Linear array queue (and why it wastes space)",
+  "mode": "function"
+}
