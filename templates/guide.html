@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ to C Guide</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+<div class="dash">
+  <p style="margin-bottom:1rem"><a href="{{ url_for('index') }}">&larr; back to problems</a></p>
+  <div class="md" style="max-width:860px">{{ body | safe }}</div>
+</div>
+</body>
+</html>

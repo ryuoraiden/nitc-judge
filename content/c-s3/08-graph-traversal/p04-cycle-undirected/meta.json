@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "dfs",
+    "cycle",
+    "graph"
+  ],
+  "estimated_minutes": 12,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Pass the vertex you came from as a parameter. An edge back to the parent is the edge you just walked - it is not a cycle.",
+    "Any OTHER edge to an already-visited vertex means two different routes reach it, which is a cycle.",
+    "Wrap it in the for-every-unvisited-vertex loop: the cycle may be in a component you have not touched yet."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p03-components"
+  ],
+  "source": "",
+  "id": "c-s3.08-graph-traversal.p04-cycle-undirected",
+  "title": "Cycle detection (undirected)",
+  "mode": "function"
+}

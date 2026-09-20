@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "topological sort",
+    "directed graph",
+    "indegree"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "indeg[v] counts edges pointing INTO v. Build it by looping over every vertex's adjacency list and incrementing the target.",
+    "Each round: take a vertex with indeg 0, output it, and decrement the indegree of everything it points to - as if deleting it from the graph.",
+    "If at some round no vertex has indeg 0 but vertices remain, what is left must contain a cycle, so return 0. That doubles as cycle detection."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p05-cycle-directed"
+  ],
+  "source": "DSA theory: DFS/BFS applications",
+  "id": "c-s3.08-graph-traversal.p06-topological-sort",
+  "title": "Topological sort (Kahn), lexicographically smallest",
+  "mode": "function"
+}

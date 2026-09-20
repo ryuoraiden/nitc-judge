@@ -1,0 +1,23 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "dfs",
+    "graph",
+    "recursion"
+  ],
+  "estimated_minutes": 8,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Three lines in the body: mark visited, record the vertex, then loop over the neighbours recursing into the unvisited ones.",
+    "Pass the counter as int *count so every recursive call shares it.",
+    "Mark u visited at the TOP of dfs(u), before the loop. Checking only at the call site lets a vertex be entered twice from two different neighbours."
+  ],
+  "prereqs": [
+    "c-s3.04-bfs.p02-bfs-order"
+  ],
+  "source": "DSA Lab Week 3 - Graphs, DFSTraversal",
+  "id": "c-s3.08-graph-traversal.p01-dfs-recursive",
+  "title": "DFS, recursive",
+  "mode": "function"
+}

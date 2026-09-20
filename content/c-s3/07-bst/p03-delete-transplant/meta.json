@@ -1,0 +1,23 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "bst",
+    "pointers",
+    "deletion"
+  ],
+  "estimated_minutes": 25,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Write transplant first and test it mentally on the root: if u->parent is NULL then v becomes the new tree root, which is why these functions return the root.",
+    "Cases 1 and 2 are one line each. Note that case 1 also covers a leaf (x->right is NULL, so you transplant NULL, which is exactly right).",
+    "Case 3: y = minimum(x->right). If y is NOT x's direct right child, first lift y out with transplant(T, y, y->right) and give y the old x->right. Then transplant x with y and hand y the left subtree. Skipping the 'y->parent != x' check corrupts the tree whenever the successor is adjacent."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p02-successor-parent"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 2 - BSTs, delete(T,x); the NITC 'BST Deletion' handout",
+  "id": "c-s3.07-bst.p03-delete-transplant",
+  "title": "BST deletion (transplant, all three cases)",
+  "mode": "function"
+}

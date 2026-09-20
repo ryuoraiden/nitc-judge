@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bfs",
+    "bipartite",
+    "graph"
+  ],
+  "estimated_minutes": 14,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Colour the start vertex 0, then every neighbour gets 1 - colour[u]. That single expression flips 0 and 1.",
+    "Use colour[v] == -1 as the visited test - one array does both jobs.",
+    "Check for a conflict when the neighbour is ALREADY coloured: if it has the same colour as the current vertex, an edge joins two vertices on the same side and the graph is not bipartite."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p03-components"
+  ],
+  "source": "Core of the DSA Lab Week 3 evaluation question",
+  "id": "c-s3.08-graph-traversal.p07-bipartite",
+  "title": "Bipartite check by 2-colouring",
+  "mode": "function"
+}

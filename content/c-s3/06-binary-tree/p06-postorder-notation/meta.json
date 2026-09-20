@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "parsing"
+  ],
+  "estimated_minutes": 15,
+  "samples": 5,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The parser from the previous rung works unchanged - there are just no spaces to skip.",
+    "Values go up to 100000, so they are multi-digit. Sample 1 has 20 and 11: if you read one digit per node you will build a completely different tree."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p02-parse-notation"
+  ],
+  "source": "NITC_Lab_S2_PD Assignments/Lab10 Assignment-6, Q3 (verbatim; tests 1-5 are the official samples)",
+  "id": "c-s3.06-binary-tree.p06-postorder-notation",
+  "title": "PD Lab 10 Q3: build and print postorder",
+  "mode": "program"
+}

@@ -17,9 +17,34 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from judge.loader import Content
+from judge.compare import compare
 from judge.runner_c import judge
+from judge.sandbox import Workspace, run
 
 GREEN, RED, YELLOW, RESET = "\033[32m", "\033[31m", "\033[33m", "\033[0m"
+
+
+def check_cpp(problem) -> list[str]:
+    """The C++ reference is shown as a translation source, so it must be exactly
+    as correct as the C one: a complete program passing the same tests."""
+    with Workspace("cpp") as ws:
+        ws.write("reference.cpp", problem.cpp_reference)
+        comp = run(["g++", "-std=c++17", "-O2", "-Wall", "reference.cpp", "-o", "ref.exe"],
+                   ws.path, timeout_ms=60000, output_cap_kb=256)
+        if comp.exit_code != 0:
+            return [f"reference.cpp does not compile:\n{comp.stderr[:400]}"]
+        bad = []
+        for t in problem.tests:
+            r = run([str(ws.path / "ref.exe")], ws.path, stdin_data=t.stdin,
+                    timeout_ms=problem.run_timeout_ms * 2)
+            ok, _ = compare(r.stdout, t.expected, problem.compare_strategy)
+            if not ok:
+                bad.append(t.name)
+        if bad:
+            return [f"reference.cpp fails tests {bad}"]
+        if comp.stderr.strip():
+            return [f"WARN reference.cpp compiles with warnings:\n{comp.stderr[:300]}"]
+    return []
 
 
 def check(problem) -> list[str]:
@@ -35,7 +60,7 @@ def check(problem) -> list[str]:
         if not problem.harness.strip():
             errors.append("mode=function but harness_main.c is missing")
     for t in problem.tests:
-        if t.expected.strip() == "":
+        if t.expected.strip() == "" and not problem.allow_empty:
             errors.append(f"test {t.name}: expected output is empty "
                           "(did you forget to run gen_expected.py?)")
 

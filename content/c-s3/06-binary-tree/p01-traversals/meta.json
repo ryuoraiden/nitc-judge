@@ -1,0 +1,20 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "traversal"
+  ],
+  "estimated_minutes": 6,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Every one of these is three lines after the base case 'if (root == NULL) return;'. Only the position of the printf moves.",
+    "Pre = print before both recursive calls, in = between them, post = after both."
+  ],
+  "prereqs": [],
+  "source": "Foundation for PD Lab 10 Q2-Q4 and DSA Lab Week 2",
+  "id": "c-s3.06-binary-tree.p01-traversals",
+  "title": "Preorder, inorder, postorder",
+  "mode": "function"
+}

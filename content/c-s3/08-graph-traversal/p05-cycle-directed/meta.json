@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "dfs",
+    "cycle",
+    "directed graph"
+  ],
+  "estimated_minutes": 12,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "A plain visited flag is not enough. You need to distinguish 'currently on the path I am standing on' from 'explored and finished'.",
+    "Three states: 0 untouched, 1 on the current recursion path, 2 finished. Set 1 on entry and 2 just before returning.",
+    "A neighbour coloured 1 is a back edge to something still open above you - that is the cycle. A neighbour coloured 2 is a finished subtree and is fine."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p04-cycle-undirected"
+  ],
+  "source": "",
+  "id": "c-s3.08-graph-traversal.p05-cycle-directed",
+  "title": "Cycle detection (directed): the three colours",
+  "mode": "function"
+}

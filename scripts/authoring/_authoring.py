@@ -41,7 +41,8 @@ def write_unit(pack_id: str, unit_id: str, title: str, description: str):
 
 
 def write_problem(pack_id, unit_id, slug, *, title, mode, statement, starter,
-                  solution, header=None, harness=None, tests=(), extra=None, **meta):
+                  solution, header=None, harness=None, tests=(), extra=None,
+                  cpp=None, **meta):
     d = CONTENT / pack_id / unit_id / slug
     (d / "tests").mkdir(parents=True, exist_ok=True)
 
@@ -59,6 +60,8 @@ def write_problem(pack_id, unit_id, slug, *, title, mode, statement, starter,
         _text(d / "problem.h", header)
     if harness is not None:
         _text(d / "harness_main.c", harness)
+    if cpp is not None:
+        _text(d / "reference.cpp", cpp)
     for name, body in (extra or {}).items():
         (d / "extra").mkdir(exist_ok=True)
         _text(d / "extra" / name, body)

@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "parsing"
+  ],
+  "estimated_minutes": 20,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Three separate jobs: parse, find x, print depth k. Write them as three functions; each is short.",
+    "findNode searches BOTH subtrees - this is a plain binary tree, not a BST, so there is no left/right shortcut.",
+    "printAtDepth(node, k): if k == 0 print node; otherwise recurse into both children with k - 1. Left before right gives left-to-right order."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p02-parse-notation"
+  ],
+  "source": "NITC_Lab_S2_PD Assignments/Lab10 Assignment-6, Q2 (verbatim)",
+  "allow_empty": true,
+  "id": "c-s3.06-binary-tree.p05-depth-k-subtree",
+  "title": "PD Lab 10 Q2: nodes at depth k below x",
+  "mode": "program"
+}

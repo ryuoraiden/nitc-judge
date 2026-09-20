@@ -1,0 +1,20 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "bst",
+    "recursion"
+  ],
+  "estimated_minutes": 8,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Both functions are the same shape: compare with root->key and go into ONE subtree. Searching both sides means you have written a binary-tree search, not a BST search.",
+    "insertKey returns the root so the caller can reattach it: root->left = insertKey(root->left, key). Forgetting the assignment builds a tree that silently loses every node.",
+    "The empty-tree case is where the new node is actually created - that is the base case of the recursion, not a special case before it."
+  ],
+  "prereqs": [],
+  "source": "DSA Lab Week 2 ADT: insert(T,k) and search(T,k)",
+  "id": "c-s3.07-bst.p01-insert-search",
+  "title": "BST insert and search",
+  "mode": "function"
+}

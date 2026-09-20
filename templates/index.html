@@ -9,7 +9,10 @@
 <body>
 <div class="dash">
   <h1>NITC Practice Judge</h1>
-  <div class="sub">{{ total_solved }} of {{ total_problems }} solved</div>
+  <div class="sub">{{ total_solved }} of {{ total_problems }} solved
+    &nbsp;&middot;&nbsp; <a href="{{ url_for('guide') }}">C++ &rarr; C translation guide</a>
+    &nbsp;&middot;&nbsp; <label style="cursor:pointer"><input type="checkbox" id="core-only"> hide optional variations</label>
+  </div>
   <div class="progress-bar">
     <div class="progress-fill" style="width: {{ (100 * total_solved / total_problems) if total_problems else 0 }}%"></div>
   </div>
@@ -41,7 +44,7 @@
         <div class="plist">
           {% for p in unit.problems %}
             {% set st = states.get(p.id) %}
-            <div class="pitem">
+            <div class="pitem{% if p.tier == 'extra' %} extra{% endif %}">
               <span class="status">
                 {% if st and st.solved %}<span style="color:var(--green)">&#10003;</span>
                 {% elif st and st.attempts %}<span style="color:var(--orange)">&#8226;</span>
@@ -50,6 +53,7 @@
               <a class="name" href="{{ url_for('problem_page', problem_id=p.id) }}">{{ p.title }}</a>
               <span class="badge badge-{{ p.difficulty }}">{{ p.difficulty }}</span>
               <span class="badge badge-mode">{{ p.mode }}</span>
+              {% if p.tier == 'extra' %}<span class="badge badge-time">optional</span>{% endif %}
               <span class="badge badge-time">{{ p.estimated_minutes }} min</span>
             </div>
           {% endfor %}
@@ -62,5 +66,21 @@
     <p style="color:var(--text-dim)">No content loaded. Add problem folders under <code>content/</code>.</p>
   {% endif %}
 </div>
+<script>
+(function () {
+  var box = document.getElementById("core-only");
+  function apply() {
+    document.querySelectorAll(".pitem.extra").forEach(function (el) {
+      el.style.display = box.checked ? "none" : "";
+    });
+  }
+  try { box.checked = localStorage.getItem("coreOnly") === "1"; } catch (e) {}
+  box.addEventListener("change", function () {
+    try { localStorage.setItem("coreOnly", box.checked ? "1" : "0"); } catch (e) {}
+    apply();
+  });
+  apply();
+})();
+</script>
 </body>
 </html>

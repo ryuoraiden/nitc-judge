@@ -1,0 +1,25 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "bfs",
+    "queue"
+  ],
+  "estimated_minutes": 10,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "It is BFS on a tree. The queue holds Node * pointers, not ints: static Node *q[MAXQ].",
+    "To split levels: before processing a level, record size = tail - head. Pop exactly that many; everything they push belongs to the next level.",
+    "No visited array needed - a tree has no cycles, so each node is reached exactly once, from its parent."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p01-traversals",
+    "c-s3.04-bfs.p02-bfs-order"
+  ],
+  "source": "PD Lab 10 Q4 option 5",
+  "allow_empty": true,
+  "id": "c-s3.06-binary-tree.p04-level-order",
+  "title": "Level order, one line per level",
+  "mode": "function"
+}

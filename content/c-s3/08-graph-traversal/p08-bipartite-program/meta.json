@@ -1,0 +1,25 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "dfs",
+    "stack",
+    "bipartite",
+    "parsing"
+  ],
+  "estimated_minutes": 30,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Do the parsing first and print the adjacency lists back out to check it before writing any colouring code.",
+    "fgets the whole line, then strtok(line, \" \\t\\r\\n\"). Giving strtok all four delimiters is what makes trailing spaces and \\r harmless.",
+    "After scanf(\"%d\", &n) consume the rest of that line, or your first fgets returns an empty string and every vertex shifts by one."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p07-bipartite",
+    "c-s3.08-graph-traversal.p02-dfs-iterative"
+  ],
+  "source": "Reconstruction of the DSA Lab Week 3 evaluation question (Aug 2026)",
+  "id": "c-s3.08-graph-traversal.p08-bipartite-program",
+  "title": "Week 3 evaluation: bipartite from adjacency lines",
+  "mode": "program"
+}

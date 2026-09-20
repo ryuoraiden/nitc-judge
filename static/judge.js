@@ -329,6 +329,26 @@
     });
   }
 
+  /* ---------- stopwatch ---------- */
+  // Lab tests are timed; practising against a visible clock is the point.
+  var timerEl = document.getElementById("timer");
+  if (timerEl) {
+    var elapsed = 0, running = true;
+    setInterval(function () {
+      if (!running) return;
+      elapsed++;
+      var m = Math.floor(elapsed / 60), s = elapsed % 60;
+      timerEl.textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    }, 1000);
+    timerEl.addEventListener("click", function () {
+      running = !running;
+      timerEl.style.opacity = running ? "1" : "0.5";
+    });
+    timerEl.addEventListener("dblclick", function () {
+      elapsed = -1; running = true; timerEl.style.opacity = "1";
+    });
+  }
+
   document.addEventListener("keydown", function (e) {
     if (e.ctrlKey && e.key === "Enter") { e.preventDefault(); e.shiftKey ? doSubmit() : doRun(); }
   });

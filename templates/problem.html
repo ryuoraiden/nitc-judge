@@ -17,8 +17,10 @@
       <span class="sep">/</span>
       <span class="prob-title">{{ problem.title }}</span>
       {% if state and state.solved %}<span class="badge badge-easy">solved</span>{% endif %}
+      {% if problem.tier == 'extra' %}<span class="badge badge-time">optional variation</span>{% endif %}
     </div>
     <div class="topbar-right">
+      <button class="btn" id="timer" title="Click to pause / resume. Double-click to reset.">00:00</button>
       {% if prev_id %}<a class="btn" href="{{ url_for('problem_page', problem_id=prev_id) }}">&larr;</a>{% endif %}
       {% if next_id %}<a class="btn" href="{{ url_for('problem_page', problem_id=next_id) }}">&rarr;</a>{% endif %}
       <button class="btn" id="btn-reset" title="Wipe the editor back to the starter stub">Reset</button>

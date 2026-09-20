@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "mst",
+    "kruskal",
+    "dsu",
+    "greedy"
+  ],
+  "estimated_minutes": 12,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Sort the edges by weight, then walk them in order taking any edge whose endpoints are in different sets.",
+    "unite() already returns whether the edge was safe to take - 1 means it joined two different components, 0 means it would have closed a cycle.",
+    "Count the edges you take. A connected graph on n vertices needs exactly n-1; anything less means the graph was disconnected, so return -1."
+  ],
+  "prereqs": [
+    "c-s3.09-mst.p01-disjoint-set"
+  ],
+  "source": "DSA theory: Kruskal's algorithm",
+  "id": "c-s3.09-mst.p02-kruskal-cost",
+  "title": "Kruskal: total MST cost",
+  "mode": "function"
+}

@@ -1,0 +1,4 @@
+{
+  "title": "DFS, components and bipartiteness",
+  "description": "DFS recursively and with an explicit stack (the Week 3 ADT way), then the classic applications: components, cycles, topological order, bipartite test."
+}

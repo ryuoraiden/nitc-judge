@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "queue",
+    "structs",
+    "menu-driven"
+  ],
+  "estimated_minutes": 25,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Insertion is a BFS: pop nodes in level order; the first one with a NULL left gets the new node there, else the first with a NULL right. Check left before right for every node.",
+    "Keep the records in the tree nodes themselves: a struct with vno, model, price, left and right. Read the model with %s - models have no spaces.",
+    "search must look in both subtrees (not a BST). Print -1 when not found."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p04-level-order"
+  ],
+  "source": "NITC_Lab_S2_PD Assignments/Lab10 Assignment-6, Q4 (verbatim; test 1 is the official sample)",
+  "id": "c-s3.06-binary-tree.p07-vehicle-tree",
+  "title": "PD Lab 10 Q4: vehicle parking tree (level-order insert)",
+  "mode": "program"
+}

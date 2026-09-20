@@ -1,0 +1,21 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "parsing"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Pass the position as int *i and advance it through the string; every recursive call continues exactly where the previous one stopped.",
+    "The key design choice: if the next non-space character is not '(', return NULL WITHOUT moving *i. That single rule makes '(2)' (bare leaf) and '(2()())' (explicit empties) parse identically.",
+    "Numbers can be multi-digit: value = value * 10 + (s[*i] - '0') while isdigit. Reading one character as the value is the classic bug - it passes on single-digit trees only."
+  ],
+  "prereqs": [],
+  "source": "The input format of PD Lab 10 Q2, Q3 and Q5",
+  "id": "c-s3.06-binary-tree.p02-parse-notation",
+  "title": "Parse the parenthesized notation",
+  "mode": "function"
+}

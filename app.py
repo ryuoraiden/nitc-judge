@@ -103,6 +103,12 @@ def problem_page(problem_id):
     )
 
 
+@app.route("/guide")
+def guide():
+    text = (BASE_DIR / "guides" / "cpp_to_c.md").read_text(encoding="utf-8")
+    return render_template("guide.html", body=md.render(text))
+
+
 @app.post("/api/draft/<problem_id>")
 def save_draft(problem_id):
     _problem_or_404(problem_id)

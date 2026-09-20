@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "mst",
+    "prim",
+    "greedy"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The skeleton is Dijkstra's: pick the closest unfinished vertex, mark it done, relax its neighbours. Only the relaxation changes.",
+    "key[v] holds the weight of the single cheapest edge connecting v to the tree so far - NOT the distance from the source. So the update is 'if (w[u][v] < key[v])', with no key[u] + ... in it.",
+    "Record parent[v] = u whenever you improve key[v]; those n-1 parent links are the tree."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p01-dijkstra-matrix"
+  ],
+  "source": "DSA theory: Prim's algorithm; Week 5 Q1",
+  "id": "c-s3.09-mst.p03-prim-matrix",
+  "title": "Prim: grow the tree from a source",
+  "mode": "function"
+}

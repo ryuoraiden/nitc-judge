@@ -1,0 +1,24 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "mst",
+    "kruskal",
+    "dsu",
+    "matrix output"
+  ],
+  "estimated_minutes": 30,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Print the matrix only after an edge is ACCEPTED. An edge you reject for making a cycle produces no output at all.",
+    "The finished tree is printed twice: once as the last accepted-edge snapshot, and once more at the end before the cost. That is what the official sample shows.",
+    "Disconnected input prints a single -1 and no matrices at all - so decide connectivity before printing anything, or buffer the snapshots."
+  ],
+  "prereqs": [
+    "c-s3.09-mst.p02-kruskal-cost"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 5 - MST, Q2 (verbatim; test 1 is the official sample)",
+  "id": "c-s3.09-mst.p05-week5-q2-kruskal",
+  "title": "Week 5 Q2: Rural Power Distribution (Kruskal, step by step)",
+  "mode": "program"
+}

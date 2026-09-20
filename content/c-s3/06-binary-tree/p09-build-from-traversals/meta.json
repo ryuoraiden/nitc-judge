@@ -1,0 +1,24 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "divide and conquer"
+  ],
+  "estimated_minutes": 15,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The first element of preorder is always the root of the current subtree.",
+    "Everything left of the root in inorder is the left subtree, so its size k tells you how many of the following preorder elements belong to the left.",
+    "Recurse on sub-arrays with pointer arithmetic: left is (pre + 1, in, k), right is (pre + 1 + k, in + k + 1, n - k - 1)."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p01-traversals"
+  ],
+  "source": "PD Lab 10 Q5 options (e)/(f), integer version",
+  "tier": "extra",
+  "id": "c-s3.06-binary-tree.p09-build-from-traversals",
+  "title": "Rebuild a tree from preorder + inorder",
+  "mode": "function"
+}

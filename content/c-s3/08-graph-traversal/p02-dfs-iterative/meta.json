@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "dfs",
+    "stack",
+    "graph"
+  ],
+  "estimated_minutes": 14,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Mark a vertex visited when you POP it, not when you push it - a vertex can sit in the stack several times and only the first pop counts.",
+    "Because of that, check 'if (visited[u]) continue;' right after popping.",
+    "To match recursive order, push neighbours in DESCENDING order so the smallest is on top and comes off first."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p01-dfs-recursive",
+    "c-s3.01-stack.p01-array-stack"
+  ],
+  "source": "DSA Lab Week 3 - Graphs requires DFS to be ITERATIVE using the STACK ADT",
+  "id": "c-s3.08-graph-traversal.p02-dfs-iterative",
+  "title": "DFS with an explicit stack",
+  "mode": "function"
+}

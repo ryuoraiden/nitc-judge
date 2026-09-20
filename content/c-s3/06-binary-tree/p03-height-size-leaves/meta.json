@@ -1,0 +1,22 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "binary tree",
+    "recursion"
+  ],
+  "estimated_minutes": 7,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Each function is: base case for NULL, then combine the answers from the two children. Trust the recursion - do not try to trace the whole tree.",
+    "height = 1 + max(height(left), height(right)). C has no integer max; write l > r ? l : r.",
+    "countLeaves needs two base cases: NULL gives 0, and a node with both children NULL gives 1."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p01-traversals"
+  ],
+  "source": "",
+  "id": "c-s3.06-binary-tree.p03-height-size-leaves",
+  "title": "Height, size and leaves",
+  "mode": "function"
+}

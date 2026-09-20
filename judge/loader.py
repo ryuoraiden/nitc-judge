@@ -48,6 +48,13 @@ class Problem:
     extra_sources: dict = field(default_factory=dict)
     hints: list = field(default_factory=list)
     tests: list = field(default_factory=list)
+    # "core" is what the test needs; "extra" is an optional variation.
+    tier: str = "core"
+    allow_empty: bool = False   # some tests legitimately expect no output
+    # An idiomatic C++ (Striver-style) version of the same program, reading the
+    # same stdin.  Shown as the source for a C++ -> C translation drill.
+    cpp_reference: str = ""
+    cpp_notes: list = field(default_factory=list)
     compare_strategy: str = "trim-trailing-ws"
     compile_flags: list = field(default_factory=lambda: list(DEFAULT_COMPILE_FLAGS))
     compile_timeout_ms: int = 10000
@@ -139,6 +146,10 @@ def _load_problem(problem_dir: Path, pack_id: str, unit_id: str, unit_title: str
         extra_sources=extra,
         hints=meta.get("hints", []),
         tests=_load_tests(problem_dir, meta.get("samples", 1)),
+        tier=meta.get("tier", "core"),
+        allow_empty=meta.get("allow_empty", False),
+        cpp_reference=_read(problem_dir / "reference.cpp"),
+        cpp_notes=meta.get("cpp_notes", []),
         compare_strategy=meta.get("compare", "trim-trailing-ws"),
         compile_flags=compile_cfg.get("flags", list(DEFAULT_COMPILE_FLAGS)),
         compile_timeout_ms=compile_cfg.get("timeout_ms", 10000),

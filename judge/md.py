@@ -15,12 +15,24 @@ _BOLD = re.compile(r"\*\*([^*]+)\*\*")
 _ITALIC = re.compile(r"(?<![*\w])\*([^*\n]+)\*(?!\*)")
 
 
-def _inline(text: str) -> str:
+def _emphasis(text: str) -> str:
     out = html.escape(text)
-    out = _INLINE_CODE.sub(lambda m: f"<code>{m.group(1)}</code>", out)
     out = _BOLD.sub(lambda m: f"<strong>{m.group(1)}</strong>", out)
     out = _ITALIC.sub(lambda m: f"<em>{m.group(1)}</em>", out)
     return out
+
+
+def _inline(text: str) -> str:
+    # Code spans are cut out first so that C pointer syntax inside them
+    # (`int *p`, `(*count)++`) is never mistaken for emphasis markers.
+    parts = []
+    last = 0
+    for m in _INLINE_CODE.finditer(text):
+        parts.append(_emphasis(text[last:m.start()]))
+        parts.append(f"<code>{html.escape(m.group(1))}</code>")
+        last = m.end()
+    parts.append(_emphasis(text[last:]))
+    return "".join(parts)
 
 
 def render(text: str) -> str:

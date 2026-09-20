@@ -1,0 +1,23 @@
+{
+  "difficulty": "easy",
+  "topics": [
+    "dfs",
+    "graph",
+    "components"
+  ],
+  "estimated_minutes": 10,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "One DFS is not enough: DFS only reaches one component. Loop over every vertex and start a fresh traversal from each unvisited one.",
+    "Use comp[] as both the visited array and the answer: 0 means unvisited, and a positive number is the component it belongs to.",
+    "Scanning vertices 1..n in order automatically numbers components by their smallest member, which is what the output format wants."
+  ],
+  "prereqs": [
+    "c-s3.08-graph-traversal.p01-dfs-recursive"
+  ],
+  "source": "Standard DFS application (DSA theory: DFS and its applications)",
+  "id": "c-s3.08-graph-traversal.p03-components",
+  "title": "Connected components",
+  "mode": "function"
+}

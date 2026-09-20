@@ -1,0 +1,20 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "dsu",
+    "union find"
+  ],
+  "estimated_minutes": 12,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "find walks up parent[] until it reaches a vertex that is its own parent. That vertex is the set's representative.",
+    "Path compression is one line inside find: reassign parent[x] to the root you just found, so the next lookup is immediate.",
+    "unite must compare ROOTS, not the vertices themselves. Attaching parent[b] = a instead of parent[find(b)] = find(a) silently loses whole sets."
+  ],
+  "prereqs": [],
+  "source": "DSA theory: Kruskal's analysis and implementation using disjoint sets",
+  "id": "c-s3.09-mst.p01-disjoint-set",
+  "title": "Disjoint set union (find, unite)",
+  "mode": "function"
+}

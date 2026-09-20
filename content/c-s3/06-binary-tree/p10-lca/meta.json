@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "recursion"
+  ],
+  "estimated_minutes": 12,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Return a pointer up the recursion: 'I found a or b in my subtree, here it is'.",
+    "If both the left and the right call report something, the two targets are on opposite sides - the current node is where their paths split."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p03-height-size-leaves"
+  ],
+  "source": "Standard binary-tree variation",
+  "tier": "extra",
+  "id": "c-s3.06-binary-tree.p10-lca",
+  "title": "Lowest common ancestor",
+  "mode": "function"
+}

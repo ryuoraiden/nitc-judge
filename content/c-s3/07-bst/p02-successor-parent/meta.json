@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "parent pointer"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "minimum is a while loop going left. No recursion needed, and it is the helper successor calls.",
+    "successor case 1: if x has a right subtree, the answer is the minimum of that subtree - the smallest thing bigger than x.",
+    "successor case 2: no right subtree means you have finished x's whole subtree, so walk up. While x is its parent's RIGHT child, keep climbing; the first time you arrive from the left, that parent is the successor. Reaching NULL means x was the maximum."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p01-insert-search"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 2 - BSTs, ADT functions min(T) and successor(T,x)",
+  "id": "c-s3.07-bst.p02-successor-parent",
+  "title": "Week 2 ADT: minimum, maximum, successor, predecessor",
+  "mode": "function"
+}

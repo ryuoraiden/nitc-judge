@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "bfs",
+    "queue"
+  ],
+  "estimated_minutes": 18,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Left and right view are level order with the per-level size loop: print when k == 0 (left) or k == size - 1 (right).",
+    "Top view needs a horizontal distance per node. Keep a parallel int queue hdq[] next to the Node* queue so they move together.",
+    "hd is between -n and n. Index an array with hd + OFFSET instead of using a map, and track the smallest and largest hd seen for the final print loop."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p04-level-order"
+  ],
+  "source": "PD Lab 10 (tree views)",
+  "tier": "extra",
+  "id": "c-s3.06-binary-tree.p08-views",
+  "title": "Left, right and top views",
+  "mode": "function"
+}

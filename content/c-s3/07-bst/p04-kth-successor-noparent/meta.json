@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "inorder"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "k-th smallest = the k-th node visited by an inorder traversal, because inorder is sorted. Count nodes as you visit them.",
+    "Pass the counter by pointer (int *count) so it survives across recursive calls, and stop the traversal once you have the answer.",
+    "successorOf with no parent: descend from the root; every time you go LEFT record the node you left as the best candidate, and going right never produces a candidate. The last recorded candidate is the successor."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p01-insert-search"
+  ],
+  "source": "Core of NITC_Lab_S2_PD Lab 12 Q2 (which forbids the parent pointer)",
+  "id": "c-s3.07-bst.p04-kth-successor-noparent",
+  "title": "k-th smallest and successor without a parent pointer",
+  "mode": "function"
+}

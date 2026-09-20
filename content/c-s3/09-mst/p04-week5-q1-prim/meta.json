@@ -1,0 +1,23 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "mst",
+    "prim",
+    "matrix output"
+  ],
+  "estimated_minutes": 30,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The phrase 'must be built starting from this center s' is what forces Prim rather than Kruskal.",
+    "Keep two matrices: the input weights, and a separate output matrix initialised to 0 on the diagonal and -1 everywhere else.",
+    "Fill the output matrix from parent[]: for every v except s, tree[parent[v]][v] = tree[v][parent[v]] = w. If any parent is still -1, that vertex was unreachable - print -1 and nothing else."
+  ],
+  "prereqs": [
+    "c-s3.09-mst.p03-prim-matrix"
+  ],
+  "source": "NITC_Lab_S3_DSA Week 5 - MST, Q1 (verbatim; test 1 is the official sample)",
+  "id": "c-s3.09-mst.p04-week5-q1-prim",
+  "title": "Week 5 Q1: Emergency Communication Network (Prim)",
+  "mode": "program"
+}
