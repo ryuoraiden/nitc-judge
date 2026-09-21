@@ -1,57 +1,85 @@
-# Dijkstra: print the shortest-path tree as a matrix
+# Week 4 modification (MQ4): shortest-path tree + leaf count
 
-**This is a reconstruction** of your Week 4 modification question from memory - the
-exact wording is lost, but the twist was printing the shortest-path tree as a matrix.
+**Official statement** - `Week 4 - SSSP/MQ4.pdf`. Test 1 is the sheet's sample.
 
-> Given a directed weighted graph as an adjacency matrix (`999` = no direct edge) and a
-> source `s`, run Dijkstra from `s` and print the **shortest-path tree** as an `n x n`
-> matrix.
+> You are working as a Logistics Coordinator for a central fleet management system. Your
+> primary responsibility is to dispatch delivery trucks from a central depot located in
+> one city to `n - 1` other regional cities...
+>
+> To ensure cost efficiency, you need to construct a **Shortest Path Tree (SPT)** rooted
+> at the central depot. The road network is structured such that **all cities are
+> reachable** from the central depot and there is **exactly one unique shortest path**
+> from the central depot to every other reachable city (distance between any two cities
+> is less than 999).
+>
+> Your task is to:
+>
+> 1. Construct the optimal path tree and represent it as an `n x n` adjacency matrix
+>    (where an edge exists with its edge weight only if it forms part of the Shortest
+>    Path Tree, and `-1` otherwise).
+> 2. Calculate the minimum number of vehicles required to cover all leaf-end
+>    destinations simultaneously without overlapping terminal routes, which is **the
+>    total number of leaf nodes** in the generated Shortest Path Tree.
 
 ## Input format
 
-- first line: `n`
-- next `n` lines: the adjacency matrix (`0` on the diagonal, `999` = no edge, weights
-  otherwise, all non-negative)
-- last line: the source `s` (1-based)
+- first line: `n` (`n >= 2`), cities numbered `1..n`
+- next `n` lines: the distance matrix, `0 <= dist[i][j] < 999`; `999` means no direct
+  road between distinct cities
+- last line: the depot `s`
 
 ## Output format
 
-An `n x n` matrix: `0` on the diagonal, `w` at `[u][v]` when the edge `u -> v` is in the
-shortest-path tree, `-1` everywhere else. In every test the shortest path to each vertex
-is unique, so the tree is unique.
+`n` lines: the SPT adjacency matrix (`-1` for edges not in the tree). Then one line:
+the minimum number of vehicles needed.
 
 ## Sample
 
 ```
 5
-0 5 999 999 2
-999 0 1 1 999
-999 999 0 2 9
-999 999 999 0 10
-999 2 7 999 0
+0 4 2 999 999
+4 0 1 5 999
+2 1 0 8 10
+999 5 8 0 2
+999 999 10 2 0
 1
 ```
 
 ```
-0 -1 -1 -1 2
--1 0 1 1 -1
--1 -1 0 -1 -1
--1 -1 -1 0 -1
--1 2 -1 -1 0
+0 -1 2 -1 -1
+-1 0 -1 5 -1
+-1 1 0 -1 -1
+-1 -1 -1 0 2
+-1 -1 -1 -1 0
+1
 ```
 
-Vertex 2 is reached `1 -> 5 -> 2` (cost 4, beating the direct 5), so its tree edge is
-`5 -> 2`. Vertices 3 and 4 hang off 2.
+The tree is the chain `1 -> 3 -> 2 -> 4 -> 5`, so there is exactly one leaf-end
+destination and one vehicle suffices.
 
-## What a shortest-path tree is
+## Three details the sample decides for you
 
-Every shortest path from `s` is "shortest path to some earlier vertex, plus one edge".
-So if every vertex remembers just **which vertex it was reached from**, those links
-together form a tree rooted at `s`, and walking them backwards gives every shortest
-path. That is the `parent[]` array - the same idea as BFS path reconstruction, now with
-weights.
+**The matrix is directed.** The roads are two-way, yet row 1 has `2` at column 3 while
+row 3 has `-1` at column 1. Each tree edge is written once, from parent to child:
+`tree[parent[v]][v]`. Filling in both directions, as you would for an MST, turns this
+answer wrong.
 
-Record it at the only moment it can change:
+**The diagonal prints `0`, not `-1`.**
+
+**The depot is never a leaf.** In the sample, city 1 has just one tree neighbour. Count
+"vertices that are nobody's parent" and it drops out naturally; count "vertices with
+one tree edge" and you get 2 instead of 1.
+
+## Zero is a real distance
+
+`0 <= dist[i][j]`, so a `0` **off** the diagonal is a road of length zero. Skip only
+`999` and `i == j`. Test 5 has one, and treating it as "no road" changes the tree.
+
+## Why the tree is just `parent[]`
+
+Every shortest path from `s` is a shortest path to some earlier city plus one road.
+So if every city remembers which city it was reached from, those links form a tree
+rooted at `s`. Record it at the only moment it can change:
 
 ```c
 if (dist[u] + w[u][v] < dist[v]) {
@@ -60,15 +88,11 @@ if (dist[u] + w[u][v] < dist[v]) {
 }
 ```
 
-## Shortest-path tree is not a minimum spanning tree
+The sheet's uniqueness guarantee means `<` versus `<=` does not matter here. Without
+that guarantee, the two produce different (equally valid) trees.
 
-Same kind of output as Week 5, different tree. The SPT minimises each vertex's
-**distance from `s`**; the MST minimises the **total edge weight**. On the sample, the
-MST would not necessarily contain `5 -> 2`. If a question says "tree" and "source",
-read carefully which one it means.
+## Not a minimum spanning tree
 
-## If ties were allowed
-
-With two equally short routes to `v`, strict `<` keeps whichever parent found it first,
-while `<=` keeps the last. Both are valid trees. The tests avoid ties so that either is
-accepted - but in an exam, say which rule you used.
+It looks just like the Week 5 output, but it is a different tree. The SPT minimises each
+city's distance from the depot. The MST minimises the total road length. Read which one
+a question means.

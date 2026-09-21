@@ -8,6 +8,9 @@ from _authoring import write_unit, write_problem, report
 PACK = "c-s3"
 UNIT = "05-dijkstra"
 
+import random
+rng = random.Random(505)
+
 write_unit(PACK, UNIT, "Dijkstra and weighted shortest paths",
            "Weighted graphs, where BFS stops working. The O(V^2) version first, then "
            "Week 4 Practice Question 2, then the heap-backed version.")
@@ -429,6 +432,22 @@ T3 = [
     "5\n0 3 999 7 999\n8 0 2 999 999\n5 999 0 1 999\n2 999 999 0 999\n999 999 999 999 0\n1\n",
 ]
 
+# Near the size limit: n = 100, sparse one-way roads, one connected and one not.
+def _big_q2(n, density, connected):
+    w = [[0 if i == j else 999 for j in range(n)] for i in range(n)]
+    for i in range(n):
+        for j in range(n):
+            if i != j and rng.random() < density:
+                w[i][j] = rng.randint(0, 998)
+    if connected:                        # a ring guarantees every city is reachable
+        for i in range(n):
+            w[i][(i + 1) % n] = rng.randint(1, 998)
+    rows = "\n".join(" ".join(map(str, r)) for r in w)
+    return f"{n}\n{rows}\n{rng.randint(1, n)}\n"
+
+
+T3 += [_big_q2(100, 0.06, True), _big_q2(100, 0.02, False)]
+
 write_problem(
     PACK, UNIT, "p03-practice-q2", title="Practice Question 2 (full)",
     mode="program", difficulty="medium", estimated_minutes=20, samples=1,
@@ -845,6 +864,15 @@ T5 = [
     "3\n0 -1 999\n999 0 -1\n999 999 0\n",
 ]
 
+# Found by mutation testing.  A chain listed "backwards" (5->4->3->2->1, all -1)
+# only settles one edge per pass, so it needs all n-1 passes - stopping one pass
+# early makes the check pass report a cycle that is not there.
+T5 += ["5\n0 999 999 999 999\n-1 0 999 999 999\n999 -1 0 999 999\n999 999 -1 0 999\n999 999 999 -1 0\n",
+       "8\n" + "\n".join(" ".join("0" if i == j else ("-2" if j == i - 1 else "999")
+                                  for j in range(8)) for i in range(8)) + "\n",
+       # a negative cycle 3 <-> 4 that vertex 1 can never reach
+       "4\n0 5 999 999\n999 0 999 999\n999 999 0 -2\n999 999 -2 0\n"]
+
 write_problem(
     PACK, UNIT, "p05-negative-cycle", title="Practice Question 4: detect a negative cycle",
     mode="program", difficulty="hard", estimated_minutes=20, samples=2,
@@ -897,6 +925,9 @@ Print `1` if there is a negative cycle, `-1` otherwise.
 
 That cycle `1 -> 2 -> 3 -> 1` costs `-1 + -2 + -2 = -5`. Go round it again and the
 total drops another 5. There is no shortest path at all, because there is no bottom.
+
+The diagonal is always `0`: `999` marks a missing edge between two **distinct** vertices, so
+there are no self-loops, and any negative cycle passes through at least two vertices.
 
 ## Why not Dijkstra
 

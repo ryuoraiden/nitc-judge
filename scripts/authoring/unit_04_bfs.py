@@ -8,6 +8,9 @@ from _authoring import write_unit, write_problem, report
 PACK = "c-s3"
 UNIT = "04-bfs"
 
+import random
+rng = random.Random(404)
+
 write_unit(PACK, UNIT, "BFS and shortest paths",
            "Adjacency lists, then BFS order, distances, path reconstruction, and finally "
            "the lexicographic rule from Week 4 Practice Question 1.")
@@ -859,6 +862,13 @@ T5 = [
     "5 3\n1 2\n2 3\n4 5\n1\n",
 ]
 
+# Traps for "take the smallest-numbered predecessor": that picks 4 for vertex 6,
+# but 1-2-5-6 < 1-3-4-6.  Found by mutation testing - the six tests above let
+# that wrong rule pass.
+T5 += ["6 6\n1 2\n1 3\n2 5\n3 4\n4 6\n5 6\n1\n",
+       "8 9\n1 2\n1 3\n2 7\n3 4\n4 8\n7 8\n4 5\n5 6\n7 6\n1\n",
+       "7 8\n1 3\n1 2\n3 4\n2 6\n4 5\n6 5\n5 7\n4 7\n1\n"]
+
 write_problem(
     PACK, UNIT, "p05-lex-smallest-paths",
     title="Lexicographically smallest shortest paths",
@@ -1054,6 +1064,23 @@ T6 = [
     "5\n1 2\n2 3\n3\n4 5\n5\n1\n",
     "3\n1\n2 1\n3 2\n1\n",
 ]
+
+# Near the size limit: 100 vertices, dense, neighbours in random order.
+def _big_q1(n, density):
+    lines = [str(n)]
+    for u in range(1, n + 1):
+        nbrs = [v for v in range(1, n + 1) if v != u and rng.random() < density]
+        rng.shuffle(nbrs)
+        lines.append(" ".join(str(x) for x in [u] + nbrs))
+    lines.append(str(rng.randint(1, n)))
+    return "\n".join(lines) + "\n"
+
+
+T6 += [_big_q1(100, 0.05), _big_q1(100, 0.5)]
+
+# Same traps in the sheet's adjacency-line format (see p05).
+T6 += ["6\n1 3 2\n2 5\n3 4\n4 6\n5 6\n6\n1\n",
+       "8\n1 3 2\n2 7\n3 4\n4 8 5\n5 6\n6\n7 8 6\n8\n1\n"]
 
 write_problem(
     PACK, UNIT, "p06-practice-q1", title="Practice Question 1 (full)",

@@ -16,6 +16,10 @@ get to Dijkstra.
 Smallest `key` comes out first. **If two items have the same `key`, the smaller
 `id` comes out first.**
 
+(This is **not** the rule from the PD Lab 11 ticket and patient questions this is
+rebuilt from: those were *max*-priority queues where ties go to whoever arrived first.
+Same machinery, different comparison - read which one a question asks for.)
+
 That tie-break is not decoration. Without it, which of two equal-key items surfaces
 first depends on incidental swap order, and the same program could print different
 valid answers on different days. Pinning the rule makes the output deterministic and

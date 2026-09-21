@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "deletion",
+    "menu-driven"
+  ],
+  "estimated_minutes": 30,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Read the command with scanf(\" %c\", &c) - the leading space skips the newline left by the previous line. Without it every other command reads '\\n'.",
+    "The two-children delete: find the smallest key in the right subtree, copy it into the node, then delete that key from the right subtree recursively.",
+    "An empty tree prints NULL for p, t and b - check before calling the traversal."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p03-delete-transplant"
+  ],
+  "source": "NITC_Lab_S2_PD Assignments/Lab12 Assignment-8, Q1 (official; test 1 is the official sample)",
+  "id": "c-s3.07-bst.p05-lab12-q1-menu",
+  "title": "PD Lab 12 Q1: BST menu (insert, search, delete, traversals)",
+  "mode": "program"
+}

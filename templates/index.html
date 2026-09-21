@@ -17,6 +17,33 @@
     <div class="progress-fill" style="width: {{ (100 * total_solved / total_problems) if total_problems else 0 }}%"></div>
   </div>
 
+  {% for pack in packs if pack.essentials %}
+  {% set done = pack.essentials | map(attribute='id') | select('in', solved_ids) | list | length %}
+  {% set ns = namespace(next_marked=false) %}
+  <div class="due-box" style="border-color:#2b558a">
+    <h3 style="color:var(--accent)">Test prep path &mdash; {{ done }}/{{ pack.essentials | length }} essentials done</h3>
+    <div class="sub" style="margin-bottom:.6rem">Do these in order. Everything below this box is practice or optional.</div>
+    <div class="plist">
+      {% for p in pack.essentials %}
+        {% set st = states.get(p.id) %}
+        {% set is_next = (not ns.next_marked) and not (st and st.solved) %}
+        {% if is_next %}{% set ns.next_marked = true %}{% endif %}
+        <div class="pitem" {% if is_next %}style="border-color:var(--accent);background:var(--bg-2)"{% endif %}>
+          <span class="status">
+            {% if st and st.solved %}<span style="color:var(--green)">&#10003;</span>
+            {% elif is_next %}<span style="color:var(--accent)">&#9654;</span>
+            {% else %}<span style="color:var(--text-dim)">{{ loop.index }}</span>{% endif %}
+          </span>
+          <a class="name" href="{{ url_for('problem_page', problem_id=p.id) }}">{{ p.title }}</a>
+          <span class="badge badge-topic">{{ p.unit_title }}</span>
+          <span class="badge badge-mode">{{ p.mode }}</span>
+          <span class="badge badge-time">{{ p.estimated_minutes }} min</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+
   {% if due %}
   <div class="due-box">
     <h3>Due for review ({{ due|length }})</h3>

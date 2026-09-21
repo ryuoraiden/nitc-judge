@@ -5,19 +5,23 @@
     "shortest path tree",
     "matrix output"
   ],
-  "estimated_minutes": 25,
+  "estimated_minutes": 30,
   "samples": 1,
   "compare": "trim-trailing-ws",
   "hints": [
-    "The whole twist is one line: when dist[u] + w[u][v] beats dist[v], also set parent[v] = u. The last u that improved v is its tree parent.",
-    "The tree has at most n-1 edges - one into each reachable vertex other than s. So after Dijkstra, loop over v and write tree[parent[v]][v].",
-    "The input graph is DIRECTED (one-way roads), so the tree edge is written in one direction only, unlike an MST matrix."
+    "The whole tree is one extra line inside Dijkstra: when dist[u] + w[u][v] beats dist[v], also set parent[v] = u.",
+    "Write each tree edge in ONE direction only, parent -> child: tree[parent[v]][v]. The official sample's matrix is not symmetric even though its roads are.",
+    "Leaves = vertices other than s that are nobody's parent. Count children with children[parent[v]]++. Do not count s: in the official sample the depot has a single child and the answer is still 1."
   ],
   "prereqs": [
     "c-s3.05-dijkstra.p01-dijkstra-matrix"
   ],
-  "source": "Reconstruction of the DSA Lab Week 4 modification question",
+  "source": "NITC_Lab_S3_DSA Week 4 - SSSP/MQ4.pdf (official statement; test 1 is the official sample)",
+  "run": {
+    "timeout_ms": 3000,
+    "output_cap_kb": 1024
+  },
   "id": "c-s3.10-graph-variations.p01-dijkstra-spt-matrix",
-  "title": "Dijkstra: print the shortest-path tree as a matrix",
+  "title": "Week 4 modification (MQ4): shortest-path tree + leaf count",
   "mode": "program"
 }

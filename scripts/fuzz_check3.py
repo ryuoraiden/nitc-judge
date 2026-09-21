@@ -187,12 +187,14 @@ def check_spt(rng, c, trials):
                 ok = False
                 break
             tree[preds[0]][v] = w[(preds[0], v)]
-        if not ok:
-            continue                           # tests only use graphs with a unique SPT
+        if not ok or any(d[s][v] >= INF for v in range(1, n + 1)):
+            continue                           # MQ4 guarantees: unique SPT, all reachable
         done += 1
         text = f"{n}\n" + "\n".join(" ".join(str(0 if i == j else w.get((i, j), 999))
                                               for j in range(1, n + 1)) for i in range(1, n + 1)) + f"\n{s}\n"
-        want = "\n".join(" ".join(map(str, tree[i][1:])) for i in range(1, n + 1))
+        has_child = {u for u in range(1, n + 1) for v in range(1, n + 1) if u != v and tree[u][v] != -1}
+        leaves = sum(1 for v in range(1, n + 1) if v != s and v not in has_child)
+        want = "\n".join(" ".join(map(str, tree[i][1:])) for i in range(1, n + 1)) + f"\n{leaves}"
         if prog(text) != want:
             bad += 1
     return bad

@@ -25,11 +25,21 @@ DEFAULT_META = {
 }
 
 
-def write_pack(pack_id: str, title: str, description: str, language: str = "c"):
+def write_pack(pack_id: str, title: str = None, description: str = None,
+               language: str = None, essentials: list = None):
+    """Merge into pack.json rather than replacing it: several scripts own
+    different keys (a unit script sets the title, pack_c_s3.py the study path)."""
     d = CONTENT / pack_id
     d.mkdir(parents=True, exist_ok=True)
-    _json(d / "pack.json", {"id": pack_id, "title": title,
-                            "description": description, "language": language})
+    path = d / "pack.json"
+    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    data["id"] = pack_id
+    for key, value in (("title", title), ("description", description),
+                       ("language", language), ("essentials", essentials)):
+        if value is not None:
+            data[key] = value
+    data.setdefault("language", "c")
+    _json(path, data)
     return d
 
 

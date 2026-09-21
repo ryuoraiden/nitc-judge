@@ -33,6 +33,9 @@ Print `1` if there is a negative cycle, `-1` otherwise.
 That cycle `1 -> 2 -> 3 -> 1` costs `-1 + -2 + -2 = -5`. Go round it again and the
 total drops another 5. There is no shortest path at all, because there is no bottom.
 
+The diagonal is always `0`: `999` marks a missing edge between two **distinct** vertices, so
+there are no self-loops, and any negative cycle passes through at least two vertices.
+
 ## Why not Dijkstra
 
 Dijkstra settles a vertex and never reconsiders it, justified by the argument that

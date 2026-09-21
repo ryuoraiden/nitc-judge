@@ -1,0 +1,24 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "order statistics",
+    "menu-driven"
+  ],
+  "estimated_minutes": 30,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "k-th smallest is an inorder walk with a counter passed by pointer; print when the counter reaches k and stop descending.",
+    "Successor without a parent pointer: walk down from the root; every time you go LEFT, the node you leave is a candidate. The last candidate is the answer.",
+    "Here deleting an absent key prints NOT PRESENT - the Q2 output spec says so explicitly, unlike Q1."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p04-kth-successor-noparent",
+    "c-s3.07-bst.p05-lab12-q1-menu"
+  ],
+  "source": "NITC_Lab_S2_PD Assignments/Lab12 Assignment-8, Q2 (official; test 1 is the official sample)",
+  "id": "c-s3.07-bst.p06-lab12-q2-kth",
+  "title": "PD Lab 12 Q2: k-th smallest, maximum, successor (no parent pointer)",
+  "mode": "program"
+}

@@ -343,6 +343,11 @@ T2 = ["( 1 ( 2 ( 4 ( ) ( ) ) ( ) ) ( 3 ( ) ( ) ) )\n", "(20(11(2)())(8(6)(10)))\
       "( 42 ( ) ( ) )\n", "( )\n", "(9(8(7(6))))\n", "(123(45)(6789))\n"]
 T2 += [s + "\n" for _, s in tree_inputs(4, sizes=(6, 18))]
 
+# Large inputs: a 15000-node random tree and a 6000-deep left chain, both compact.
+_vals = rng.sample(range(1, 100000), 15000)
+T2.append(compact(random_tree(rng, 15000, values=_vals)) + "\n")
+T2.append(compact(random_tree(rng, 6000, values=_vals[:6000], shape="left"), bare_leaves=False) + "\n")
+
 write_problem(
     PACK, UNIT, "p02-parse-notation", title="Parse the parenthesized notation",
     mode="function", difficulty="medium", estimated_minutes=15, samples=2,
@@ -755,6 +760,13 @@ for t, _ in tree_inputs(6, sizes=(9, 25), fmt="spaced"):
 # ...and exactly one deliberate "nothing that deep" case.
 T5.append("( 2 ( 7 ( 10 ( ) ( ) ) ( 6 ( 5 ( ) ( ) ) ( 11 ( ) ( ) ) ) ) ( 9 ( ) ( 3 ( ) ( ) ) ) )\n9\n3\n")
 
+# The sheet's limits: n up to 10^3 nodes, keys up to 10^6.
+_t = random_tree(rng, 1000, values=rng.sample(range(1, 1000001), 1000))
+_choices = [(nd.v, k) for nd in _nodes(_t) for k in range(3, 9) if _at_depth(nd, k)]
+_x, _k = rng.choice(_choices)
+T5.append(f"{spaced(_t)}\n{_x}\n{_k}\n")
+T5.append(f"{spaced(_t)}\n{_t.v}\n{rng.randint(4, 7)}\n")   # x is the root: a whole level
+
 write_problem(
     PACK, UNIT, "p05-depth-k-subtree", title="PD Lab 10 Q2: nodes at depth k below x",
     mode="program", difficulty="medium", estimated_minutes=20, samples=1, allow_empty=True,
@@ -887,6 +899,19 @@ for k in range(4):
     t = random_tree(rng, n, values=rng.sample(range(1, 100001), n),
                     shape=["random", "left", "right", "random"][k])
     T6.append(compact(t, bare_leaves=(k % 2 == 0)) + "\n")
+
+# The sheet's limit is |S| <= 10^5.  Grow random trees until just under it.
+def _near_limit(shape):
+    n, best = 1000, None
+    while True:
+        t = random_tree(rng, n, values=rng.sample(range(1, 100001), n), shape=shape)
+        s = compact(t)
+        if len(s) > 100000:
+            return best
+        best, n = s, n + 1000
+
+
+T6 += [_near_limit("random") + "\n", _near_limit("right") + "\n"]
 
 write_problem(
     PACK, UNIT, "p06-postorder-notation", title="PD Lab 10 Q3: build and print postorder",

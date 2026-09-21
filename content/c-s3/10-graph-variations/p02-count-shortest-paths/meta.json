@@ -17,6 +17,7 @@
     "c-s3.05-dijkstra.p01-dijkstra-matrix"
   ],
   "source": "Common Dijkstra modification",
+  "tier": "extra",
   "id": "c-s3.10-graph-variations.p02-count-shortest-paths",
   "title": "Dijkstra: how many shortest paths?",
   "mode": "function"

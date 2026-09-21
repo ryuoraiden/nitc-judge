@@ -46,6 +46,13 @@ stopover `k`, every `d[i][k]` and `d[k][j]` must already be final for stopovers 
 Put `i` or `j` outermost and it still runs, still prints plausible numbers, and is
 wrong.
 
+## The diagonal
+
+As on the Week 4 sheet, the diagonal is always `0` and `999` only ever marks a missing
+edge between **distinct** vertices, so there are no self-loops. A negative cycle must
+therefore pass through at least two vertices. (If a question did allow a negative
+self-loop on the diagonal, you would have to read it instead of overwriting it with 0.)
+
 ## Two guards
 
 - skip the update when `d[i][k]` or `d[k][j]` is `INF`, or `INF + negative` sneaks under

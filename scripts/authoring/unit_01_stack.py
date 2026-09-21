@@ -8,8 +8,7 @@ from _authoring import write_pack, write_unit, write_problem, report
 PACK = "c-s3"
 UNIT = "01-stack"
 
-write_pack(PACK, "NITC DSA - test 1 prep",
-           "Everything before the midterm, as ladders: Stack, Queue and Heap, then BFS/DFS and their applications, SSSP, MST, binary trees and BSTs. Every NITC lab question in here is verbatim, with its official sample as test 1.")
+write_pack(PACK)   # title, description and study path live in pack_c_s3.py
 write_unit(PACK, UNIT, "Stack",
            "The array stack you will reuse for DFS and expression work. "
            "Small capacity so overflow is easy to reach.")

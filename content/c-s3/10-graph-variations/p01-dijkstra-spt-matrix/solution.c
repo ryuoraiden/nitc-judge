@@ -5,7 +5,7 @@
 #define INF 1000000000
 
 static int w[MAXV][MAXV], tree[MAXV][MAXV];
-static int dist[MAXV], parent[MAXV], done_[MAXV];
+static int dist[MAXV], parent[MAXV], done_[MAXV], children[MAXV];
 
 int main(void) {
     int n, s;
@@ -15,7 +15,7 @@ int main(void) {
     if (scanf("%d", &s) != 1) return 0;
 
     for (int i = 1; i <= n; i++) {
-        dist[i] = INF; parent[i] = -1; done_[i] = 0;
+        dist[i] = INF; parent[i] = -1; done_[i] = 0; children[i] = 0;
         for (int j = 1; j <= n; j++) tree[i][j] = (i == j) ? 0 : -1;
     }
     dist[s] = 0;
@@ -28,7 +28,7 @@ int main(void) {
         done_[u] = 1;
 
         for (int v = 1; v <= n; v++) {
-            if (u == v || w[u][v] == NOEDGE) continue;
+            if (u == v || w[u][v] == NOEDGE) continue;   /* 0 off the diagonal IS a road */
             if (dist[u] + w[u][v] < dist[v]) {
                 dist[v] = dist[u] + w[u][v];
                 parent[v] = u;              /* the one extra line vs plain Dijkstra */
@@ -36,13 +36,23 @@ int main(void) {
         }
     }
 
-    /* Each reachable vertex except s contributes exactly one tree edge. */
+    /* Each vertex except s contributes exactly one tree edge, parent -> child. */
     for (int v = 1; v <= n; v++)
-        if (parent[v] != -1) tree[parent[v]][v] = w[parent[v]][v];
+        if (parent[v] != -1) {
+            tree[parent[v]][v] = w[parent[v]][v];
+            children[parent[v]]++;
+        }
 
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) printf("%d ", tree[i][j]);
         printf("\n");
     }
+
+    /* A leaf is a vertex with no children - but never the depot itself: a root
+       with a single child is not a "leaf-end destination". */
+    int leaves = 0;
+    for (int v = 1; v <= n; v++)
+        if (v != s && children[v] == 0) leaves++;
+    printf("%d\n", leaves);
     return 0;
 }

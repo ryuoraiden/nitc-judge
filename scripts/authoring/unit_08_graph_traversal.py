@@ -1212,6 +1212,12 @@ for _ in range(4):
     n, e = rand_graph(4, 9, density=0.2)
     T8.append(bipartite_lines(n, e, trailing=rng.random() < 0.5))
 
+# n = 100: complete bipartite K(50,50) - long lines - and a 99-cycle (odd: -1).
+_left = list(range(1, 51))
+_right = list(range(51, 101))
+T8.append(bipartite_lines(100, [(u, v) for u in _left for v in _right], trailing=True))
+T8.append(bipartite_lines(99, [(i, i % 99 + 1) for i in range(1, 100)]))
+
 write_problem(
     PACK, UNIT, "p08-bipartite-program", title="Week 3 evaluation: bipartite from adjacency lines",
     mode="program", difficulty="hard", estimated_minutes=30, samples=2,

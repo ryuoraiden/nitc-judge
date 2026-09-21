@@ -47,18 +47,31 @@ def random_tree(rng: random.Random, n: int, values=None, shape="random"):
     return build(vals)
 
 
+# Both serialisers are iterative: test trees near the sheets' size limits are
+# thousands of levels deep, far past Python's recursion limit.
+
+def _serialise(t, empty, leaf, open_, sep, close):
+    out, stack = [], [t]
+    while stack:
+        x = stack.pop()
+        if isinstance(x, str):
+            out.append(x)
+        elif x is None:
+            out.append(empty)
+        elif leaf is not None and x.l is None and x.r is None:
+            out.append(leaf.format(x.v))
+        else:
+            # pushed in reverse: "(v" left sep right close
+            stack += [close, x.r, sep, x.l, sep, open_.format(x.v)]
+    return "".join(out)
+
+
 def spaced(t) -> str:
-    if t is None:
-        return "( )"
-    return f"( {t.v} {spaced(t.l)} {spaced(t.r)} )"
+    return _serialise(t, "( )", None, "( {}", " ", " )")
 
 
 def compact(t, bare_leaves=True) -> str:
-    if t is None:
-        return "()"
-    if bare_leaves and t.l is None and t.r is None:
-        return f"({t.v})"
-    return f"({t.v}{compact(t.l, bare_leaves)}{compact(t.r, bare_leaves)})"
+    return _serialise(t, "()", "({})" if bare_leaves else None, "({}", "", ")")
 
 
 def preorder(t):

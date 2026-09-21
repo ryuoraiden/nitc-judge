@@ -71,7 +71,7 @@ def rand_directed(nmin, nmax, density, lo, hi):
     return n, w
 
 
-# ================================================================= p01 Dijkstra SPT matrix
+# ================================================================= p01 Dijkstra SPT matrix (MQ4)
 A1 = r"""
 #include <stdio.h>
 
@@ -80,7 +80,7 @@ A1 = r"""
 #define INF 1000000000
 
 static int w[MAXV][MAXV], tree[MAXV][MAXV];
-static int dist[MAXV], parent[MAXV], done_[MAXV];
+static int dist[MAXV], parent[MAXV], done_[MAXV], children[MAXV];
 
 int main(void) {
     int n, s;
@@ -90,7 +90,7 @@ int main(void) {
     if (scanf("%d", &s) != 1) return 0;
 
     for (int i = 1; i <= n; i++) {
-        dist[i] = INF; parent[i] = -1; done_[i] = 0;
+        dist[i] = INF; parent[i] = -1; done_[i] = 0; children[i] = 0;
         for (int j = 1; j <= n; j++) tree[i][j] = (i == j) ? 0 : -1;
     }
     dist[s] = 0;
@@ -103,7 +103,7 @@ int main(void) {
         done_[u] = 1;
 
         for (int v = 1; v <= n; v++) {
-            if (u == v || w[u][v] == NOEDGE) continue;
+            if (u == v || w[u][v] == NOEDGE) continue;   /* 0 off the diagonal IS a road */
             if (dist[u] + w[u][v] < dist[v]) {
                 dist[v] = dist[u] + w[u][v];
                 parent[v] = u;              /* the one extra line vs plain Dijkstra */
@@ -111,14 +111,24 @@ int main(void) {
         }
     }
 
-    /* Each reachable vertex except s contributes exactly one tree edge. */
+    /* Each vertex except s contributes exactly one tree edge, parent -> child. */
     for (int v = 1; v <= n; v++)
-        if (parent[v] != -1) tree[parent[v]][v] = w[parent[v]][v];
+        if (parent[v] != -1) {
+            tree[parent[v]][v] = w[parent[v]][v];
+            children[parent[v]]++;
+        }
 
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) printf("%d ", tree[i][j]);
         printf("\n");
     }
+
+    /* A leaf is a vertex with no children - but never the depot itself: a root
+       with a single child is not a "leaf-end destination". */
+    int leaves = 0;
+    for (int v = 1; v <= n; v++)
+        if (v != s && children[v] == 0) leaves++;
+    printf("%d\n", leaves);
     return 0;
 }
 """
@@ -132,98 +142,167 @@ S1 = r"""
 
 int main(void) {
     /* TODO
-       1. read n, the n x n matrix (999 = no edge), and s (1-based)
-       2. ordinary O(V^2) Dijkstra from s - BUT whenever you improve dist[v]
+       1. read n, the n x n distance matrix (999 = no road), and s (1-based)
+       2. ordinary O(V^2) Dijkstra from s - but whenever you improve dist[v]
           through u, also record parent[v] = u
-       3. build the output matrix: 0 on the diagonal, -1 everywhere else,
-          then tree[parent[v]][v] = w[parent[v]][v] for every v that has a parent
-       4. print it */
+       3. output matrix: 0 on the diagonal, -1 everywhere else, then
+          tree[parent[v]][v] = dist-matrix weight for every v with a parent
+       4. print it, then the number of leaves: vertices other than s that are
+          nobody's parent */
     return 0;
 }
 """
 
-T1 = [matrix_input(5, {(1, 2): 5, (1, 5): 2, (2, 3): 1, (2, 4): 1, (3, 4): 2, (3, 5): 9,
-                       (4, 5): 10, (5, 2): 2, (5, 3): 7}, [1]),
-      matrix_input(4, {(1, 2): 1, (2, 3): 1, (3, 4): 1}, [1]),
-      matrix_input(4, {(1, 2): 3, (3, 4): 5}, [1]),
-      matrix_input(3, {}, [2]),
-      matrix_input(5, {(1, 2): 4, (1, 3): 1, (3, 2): 2, (2, 4): 1, (3, 4): 5, (4, 5): 3}, [1])]
-while len(T1) < 11:
-    n, w = rand_directed(4, 8, 0.4, 1, 30)
+
+def spt_ok(n, w, s):
+    """The sheet guarantees: everything reachable, and a unique shortest path."""
+    d = py_dijkstra(n, w, s)
+    return all(x < INF for x in d[1:]) and unique_spt(n, w, s)
+
+
+def symmetric(n, density, lo, hi):
+    """Undirected roads, like the official sample: dist[i][j] == dist[j][i]."""
+    w = {}
+    for u in range(1, n + 1):
+        for v in range(u + 1, n + 1):
+            if rng.random() < density:
+                w[(u, v)] = w[(v, u)] = rng.randint(lo, hi)
+    return w
+
+
+MQ4_SAMPLE = "5\n0 4 2 999 999\n4 0 1 5 999\n2 1 0 8 10\n999 5 8 0 2\n999 999 10 2 0\n1\n"
+
+T1 = [MQ4_SAMPLE,
+      # star: every other city is its own leaf
+      matrix_input(5, {(1, v): v for v in range(2, 6)} | {(v, 1): v for v in range(2, 6)}, [1]),
+      # a path: exactly one leaf, even though the depot has degree 1
+      matrix_input(4, {(1, 2): 3, (2, 1): 3, (2, 3): 3, (3, 2): 3, (3, 4): 3, (4, 3): 3}, [1]),
+      # depot in the middle of a path: two leaves, one on each side
+      matrix_input(5, {(1, 2): 1, (2, 1): 1, (2, 3): 1, (3, 2): 1, (3, 4): 1, (4, 3): 1,
+                       (4, 5): 1, (5, 4): 1}, [3]),
+      # zero-weight roads are real roads, not "the diagonal"
+      matrix_input(4, {(1, 2): 0, (2, 1): 0, (2, 3): 5, (3, 2): 5, (1, 4): 2, (4, 1): 2}, [1]),
+      # a direct road that loses to a two-hop route
+      matrix_input(3, {(1, 2): 10, (2, 1): 10, (1, 3): 1, (3, 1): 1, (3, 2): 2, (2, 3): 2}, [1]),
+      matrix_input(2, {(1, 2): 7, (2, 1): 7}, [2])]
+
+# branching random trees, mostly symmetric like the sheet, a few one-way
+while len(T1) < 15:
+    n = rng.randint(5, 10)
+    w = symmetric(n, 0.45, 0, 40) if len(T1) % 4 else rand_directed(n, n, 0.45, 0, 40)[1]
     s = rng.randint(1, n)
-    if unique_spt(n, w, s):
+    if spt_ok(n, w, s):
+        T1.append(matrix_input(n, w, [s]))
+
+# near the sheet's size limits
+while len(T1) < 17:
+    n = 100 if len(T1) == 15 else 60
+    w = symmetric(n, 0.08, 1, 998)
+    s = rng.randint(1, n)
+    if spt_ok(n, w, s):
         T1.append(matrix_input(n, w, [s]))
 
 write_problem(
-    PACK, UNIT, "p01-dijkstra-spt-matrix", title="Dijkstra: print the shortest-path tree as a matrix",
-    mode="program", difficulty="hard", estimated_minutes=25, samples=1,
+    PACK, UNIT, "p01-dijkstra-spt-matrix", title="Week 4 modification (MQ4): shortest-path tree + leaf count",
+    mode="program", difficulty="hard", estimated_minutes=30, samples=1,
     topics=["dijkstra", "shortest path tree", "matrix output"],
     prereqs=[f"{PACK}.05-dijkstra.p01-dijkstra-matrix"],
-    source="Reconstruction of the DSA Lab Week 4 modification question",
+    source="NITC_Lab_S3_DSA Week 4 - SSSP/MQ4.pdf (official statement; test 1 is the official sample)",
+    run={"timeout_ms": 3000, "output_cap_kb": 1024},
     hints=[
-        "The whole twist is one line: when dist[u] + w[u][v] beats dist[v], also "
-        "set parent[v] = u. The last u that improved v is its tree parent.",
-        "The tree has at most n-1 edges - one into each reachable vertex other than "
-        "s. So after Dijkstra, loop over v and write tree[parent[v]][v].",
-        "The input graph is DIRECTED (one-way roads), so the tree edge is written in "
-        "one direction only, unlike an MST matrix.",
+        "The whole tree is one extra line inside Dijkstra: when dist[u] + w[u][v] "
+        "beats dist[v], also set parent[v] = u.",
+        "Write each tree edge in ONE direction only, parent -> child: "
+        "tree[parent[v]][v]. The official sample's matrix is not symmetric even "
+        "though its roads are.",
+        "Leaves = vertices other than s that are nobody's parent. Count children "
+        "with children[parent[v]]++. Do not count s: in the official sample the "
+        "depot has a single child and the answer is still 1.",
     ],
     starter=S1, solution=A1, tests=T1,
     statement=r"""
-# Dijkstra: print the shortest-path tree as a matrix
+# Week 4 modification (MQ4): shortest-path tree + leaf count
 
-**This is a reconstruction** of your Week 4 modification question from memory - the
-exact wording is lost, but the twist was printing the shortest-path tree as a matrix.
+**Official statement** - `Week 4 - SSSP/MQ4.pdf`. Test 1 is the sheet's sample.
 
-> Given a directed weighted graph as an adjacency matrix (`999` = no direct edge) and a
-> source `s`, run Dijkstra from `s` and print the **shortest-path tree** as an `n x n`
-> matrix.
+> You are working as a Logistics Coordinator for a central fleet management system. Your
+> primary responsibility is to dispatch delivery trucks from a central depot located in
+> one city to `n - 1` other regional cities...
+>
+> To ensure cost efficiency, you need to construct a **Shortest Path Tree (SPT)** rooted
+> at the central depot. The road network is structured such that **all cities are
+> reachable** from the central depot and there is **exactly one unique shortest path**
+> from the central depot to every other reachable city (distance between any two cities
+> is less than 999).
+>
+> Your task is to:
+>
+> 1. Construct the optimal path tree and represent it as an `n x n` adjacency matrix
+>    (where an edge exists with its edge weight only if it forms part of the Shortest
+>    Path Tree, and `-1` otherwise).
+> 2. Calculate the minimum number of vehicles required to cover all leaf-end
+>    destinations simultaneously without overlapping terminal routes, which is **the
+>    total number of leaf nodes** in the generated Shortest Path Tree.
 
 ## Input format
 
-- first line: `n`
-- next `n` lines: the adjacency matrix (`0` on the diagonal, `999` = no edge, weights
-  otherwise, all non-negative)
-- last line: the source `s` (1-based)
+- first line: `n` (`n >= 2`), cities numbered `1..n`
+- next `n` lines: the distance matrix, `0 <= dist[i][j] < 999`; `999` means no direct
+  road between distinct cities
+- last line: the depot `s`
 
 ## Output format
 
-An `n x n` matrix: `0` on the diagonal, `w` at `[u][v]` when the edge `u -> v` is in the
-shortest-path tree, `-1` everywhere else. In every test the shortest path to each vertex
-is unique, so the tree is unique.
+`n` lines: the SPT adjacency matrix (`-1` for edges not in the tree). Then one line:
+the minimum number of vehicles needed.
 
 ## Sample
 
 ```
 5
-0 5 999 999 2
-999 0 1 1 999
-999 999 0 2 9
-999 999 999 0 10
-999 2 7 999 0
+0 4 2 999 999
+4 0 1 5 999
+2 1 0 8 10
+999 5 8 0 2
+999 999 10 2 0
 1
 ```
 
 ```
-0 -1 -1 -1 2
--1 0 1 1 -1
--1 -1 0 -1 -1
--1 -1 -1 0 -1
--1 2 -1 -1 0
+0 -1 2 -1 -1
+-1 0 -1 5 -1
+-1 1 0 -1 -1
+-1 -1 -1 0 2
+-1 -1 -1 -1 0
+1
 ```
 
-Vertex 2 is reached `1 -> 5 -> 2` (cost 4, beating the direct 5), so its tree edge is
-`5 -> 2`. Vertices 3 and 4 hang off 2.
+The tree is the chain `1 -> 3 -> 2 -> 4 -> 5`, so there is exactly one leaf-end
+destination and one vehicle suffices.
 
-## What a shortest-path tree is
+## Three details the sample decides for you
 
-Every shortest path from `s` is "shortest path to some earlier vertex, plus one edge".
-So if every vertex remembers just **which vertex it was reached from**, those links
-together form a tree rooted at `s`, and walking them backwards gives every shortest
-path. That is the `parent[]` array - the same idea as BFS path reconstruction, now with
-weights.
+**The matrix is directed.** The roads are two-way, yet row 1 has `2` at column 3 while
+row 3 has `-1` at column 1. Each tree edge is written once, from parent to child:
+`tree[parent[v]][v]`. Filling in both directions, as you would for an MST, turns this
+answer wrong.
 
-Record it at the only moment it can change:
+**The diagonal prints `0`, not `-1`.**
+
+**The depot is never a leaf.** In the sample, city 1 has just one tree neighbour. Count
+"vertices that are nobody's parent" and it drops out naturally; count "vertices with
+one tree edge" and you get 2 instead of 1.
+
+## Zero is a real distance
+
+`0 <= dist[i][j]`, so a `0` **off** the diagonal is a road of length zero. Skip only
+`999` and `i == j`. Test 5 has one, and treating it as "no road" changes the tree.
+
+## Why the tree is just `parent[]`
+
+Every shortest path from `s` is a shortest path to some earlier city plus one road.
+So if every city remembers which city it was reached from, those links form a tree
+rooted at `s`. Record it at the only moment it can change:
 
 ```c
 if (dist[u] + w[u][v] < dist[v]) {
@@ -232,18 +311,14 @@ if (dist[u] + w[u][v] < dist[v]) {
 }
 ```
 
-## Shortest-path tree is not a minimum spanning tree
+The sheet's uniqueness guarantee means `<` versus `<=` does not matter here. Without
+that guarantee, the two produce different (equally valid) trees.
 
-Same kind of output as Week 5, different tree. The SPT minimises each vertex's
-**distance from `s`**; the MST minimises the **total edge weight**. On the sample, the
-MST would not necessarily contain `5 -> 2`. If a question says "tree" and "source",
-read carefully which one it means.
+## Not a minimum spanning tree
 
-## If ties were allowed
-
-With two equally short routes to `v`, strict `<` keeps whichever parent found it first,
-while `<=` keeps the last. Both are valid trees. The tests avoid ties so that either is
-accepted - but in an exam, say which rule you used.
+It looks just like the Week 5 output, but it is a different tree. The SPT minimises each
+city's distance from the depot. The MST minimises the total road length. Read which one
+a question means.
 """,
 )
 
@@ -381,7 +456,7 @@ for _ in range(6):
 
 write_problem(
     PACK, UNIT, "p02-count-shortest-paths", title="Dijkstra: how many shortest paths?",
-    mode="function", difficulty="hard", estimated_minutes=18, samples=2,
+    mode="function", difficulty="hard", estimated_minutes=18, samples=2, tier="extra",
     topics=["dijkstra", "counting", "dynamic programming"],
     prereqs=[f"{PACK}.05-dijkstra.p01-dijkstra-matrix"],
     source="Common Dijkstra modification",
@@ -448,6 +523,14 @@ Dijkstra already visits vertices in order of final distance. When it relaxes an 
 
 The reset in the first row matters: every route counted so far was longer, so they
 stop counting.
+
+## How big can the count get?
+
+Exponentially big. Give vertex `i` an edge to every `j > i` of weight `j - i` and
+*every* path from 1 to `n` is a shortest path: `2^(n-2)` of them. At 65 vertices that
+no longer fits in a `long long` and the count silently goes negative. These tests keep
+the answer well inside `long long`; in an exam, a question that can produce huge counts
+will say "print it modulo 10^9+7" - apply `% MOD` at both update lines if it does.
 
 ## Why positive weights
 
@@ -792,6 +875,13 @@ through `k`?". That is why `k` has to be the outer loop - by the time you consid
 stopover `k`, every `d[i][k]` and `d[k][j]` must already be final for stopovers `1..k-1`.
 Put `i` or `j` outermost and it still runs, still prints plausible numbers, and is
 wrong.
+
+## The diagonal
+
+As on the Week 4 sheet, the diagonal is always `0` and `999` only ever marks a missing
+edge between **distinct** vertices, so there are no self-loops. A negative cycle must
+therefore pass through at least two vertices. (If a question did allow a negative
+self-loop on the diagonal, you would have to read it instead of overwriting it with 0.)
 
 ## Two guards
 

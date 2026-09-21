@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "recursion",
+    "tree comparison"
+  ],
+  "estimated_minutes": 20,
+  "samples": 3,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Write identical(a, b) first: both NULL -> yes; one NULL -> no; otherwise equal keys AND identical left AND identical right.",
+    "Keys are unique, so only ONE node of BST2 can possibly match: the one holding BST1's root key. Search for it like a normal BST search, then compare.",
+    "Identical means the whole subtree, not just a prefix. A matching node with an extra descendant (test 7) is NOT a subtree."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p01-insert-search"
+  ],
+  "source": "NITC_Lab_S2_PD Assignments/Lab12 Assignment-8, Q4 (official; tests 1-3 are the official samples)",
+  "id": "c-s3.07-bst.p07-lab12-q4-subtree",
+  "title": "PD Lab 12 Q4: is BST1 a subtree of BST2?",
+  "mode": "program"
+}

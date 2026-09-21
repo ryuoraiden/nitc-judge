@@ -51,6 +51,14 @@ Dijkstra already visits vertices in order of final distance. When it relaxes an 
 The reset in the first row matters: every route counted so far was longer, so they
 stop counting.
 
+## How big can the count get?
+
+Exponentially big. Give vertex `i` an edge to every `j > i` of weight `j - i` and
+*every* path from 1 to `n` is a shortest path: `2^(n-2)` of them. At 65 vertices that
+no longer fits in a `long long` and the count silently goes negative. These tests keep
+the answer well inside `long long`; in an exam, a question that can produce huge counts
+will say "print it modulo 10^9+7" - apply `% MOD` at both update lines if it does.
+
 ## Why positive weights
 
 The count is right only if `ways[u]` is complete when you relax out of `u` - that is,

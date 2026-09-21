@@ -495,8 +495,10 @@ write_problem(
     statement=r"""
 # BST queries: LCA, floor, ceil, range
 
-Four short questions that each use the BST ordering to walk **one path** instead of
-searching the whole tree.
+Four short questions that use the BST ordering to avoid searching the whole tree. The
+first three walk **one root-to-leaf path**, `O(h)`. Range reporting cannot - every key in
+range has to be printed - but it skips every subtree that lies entirely outside the
+range, so it costs `O(h + k)` for `k` reported keys.
 
 ```c
 int  lcaBST(Node *root, int a, int b);          /* both keys present */

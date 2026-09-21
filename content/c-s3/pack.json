@@ -1,6 +1,30 @@
 {
   "id": "c-s3",
-  "title": "NITC DSA - test 1 prep",
-  "description": "Everything before the midterm, as ladders: Stack, Queue and Heap, then BFS/DFS and their applications, SSSP, MST, binary trees and BSTs. Every NITC lab question in here is verbatim, with its official sample as test 1.",
-  "language": "c"
+  "title": "NITC DSA - Test 1 prep",
+  "description": "Stack, queue and heap, then BFS/DFS, shortest paths, MST, binary trees and BSTs. Official lab questions use their sheet's wording and sample; reconstructed ones say so at the top of the statement.",
+  "language": "c",
+  "essentials": [
+    "c-s3.04-bfs.p05-lex-smallest-paths",
+    "c-s3.04-bfs.p06-practice-q1",
+    "c-s3.05-dijkstra.p01-dijkstra-matrix",
+    "c-s3.05-dijkstra.p03-practice-q2",
+    "c-s3.10-graph-variations.p01-dijkstra-spt-matrix",
+    "c-s3.05-dijkstra.p05-negative-cycle",
+    "c-s3.10-graph-variations.p03-bellman-ford",
+    "c-s3.10-graph-variations.p04-floyd-warshall",
+    "c-s3.09-mst.p01-disjoint-set",
+    "c-s3.09-mst.p04-week5-q1-prim",
+    "c-s3.09-mst.p05-week5-q2-kruskal",
+    "c-s3.10-graph-variations.p05-prim-blocked-steps",
+    "c-s3.08-graph-traversal.p02-dfs-iterative",
+    "c-s3.08-graph-traversal.p08-bipartite-program",
+    "c-s3.06-binary-tree.p02-parse-notation",
+    "c-s3.06-binary-tree.p05-depth-k-subtree",
+    "c-s3.06-binary-tree.p06-postorder-notation",
+    "c-s3.07-bst.p03-delete-transplant",
+    "c-s3.07-bst.p05-lab12-q1-menu",
+    "c-s3.07-bst.p06-lab12-q2-kth",
+    "c-s3.07-bst.p07-lab12-q4-subtree",
+    "c-s3.11-tree-variations.p01-delete-by-rank"
+  ]
 }

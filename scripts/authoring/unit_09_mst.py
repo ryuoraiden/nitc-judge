@@ -709,6 +709,20 @@ for _ in range(4):
     n, edges = rand_weighted(3, 7, connected=rng.random() < 0.8)
     T4.append(edges_input(n, edges, source=rng.randint(1, n)))
 
+# The sheet's limits: n = 100, weights distinct and <= 1000, so m <= 1000.
+def _big_mst(n, m, source):
+    pairs = {(rng.randint(1, v - 1), v) for v in range(2, n + 1)}      # connected
+    while len(pairs) < m:
+        u, v = sorted(rng.sample(range(1, n + 1), 2))
+        pairs.add((u, v))
+    weights = rng.sample(range(1, 1001), m)
+    edges = [(u, v, w) for (u, v), w in zip(sorted(pairs), weights)]
+    rng.shuffle(edges)
+    return edges_input(n, edges, source=source)
+
+
+T4.append(_big_mst(100, 1000, source=rng.randint(1, 100)))
+
 write_problem(
     PACK, UNIT, "p04-week5-q1-prim", title="Week 5 Q1: Emergency Communication Network (Prim)",
     mode="program", difficulty="hard", estimated_minutes=30, samples=1,
@@ -909,6 +923,17 @@ T5 = ["5 7\n1 2 4\n1 3 2\n2 3 1\n2 4 5\n3 4 8\n3 5 11\n4 5 7\n",
 for _ in range(4):
     n, edges = rand_weighted(3, 6, connected=rng.random() < 0.8)
     T5.append(f"{n} {len(edges)}\n" + "".join(f"{u} {v} {w}\n" for u, v, w in edges))
+
+# Kruskal prints an n x n matrix per accepted edge, so output grows as n^3:
+# n = 40 is ~190 KB.  (At the sheet's n = 100 it would be ~3 MB.)
+_n, _m = 40, 300
+_pairs = {(rng.randint(1, v - 1), v) for v in range(2, _n + 1)}
+while len(_pairs) < _m:
+    _u, _v = sorted(rng.sample(range(1, _n + 1), 2))
+    _pairs.add((_u, _v))
+_edges = [(u, v, w) for (u, v), w in zip(sorted(_pairs), rng.sample(range(1, 1001), _m))]
+rng.shuffle(_edges)
+T5.append(f"{_n}\n{_m}\n" + "".join(f"{u} {v} {w}\n" for u, v, w in _edges))
 
 write_problem(
     PACK, UNIT, "p05-week5-q2-kruskal", title="Week 5 Q2: Rural Power Distribution (Kruskal, step by step)",

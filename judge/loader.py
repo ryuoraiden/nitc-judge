@@ -51,6 +51,7 @@ class Problem:
     # "core" is what the test needs; "extra" is an optional variation.
     tier: str = "core"
     allow_empty: bool = False   # some tests legitimately expect no output
+    essential_rank: int = 0     # position in the pack's study path; 0 = not on it
     # An idiomatic C++ (Striver-style) version of the same program, reading the
     # same stdin.  Shown as the source for a C++ -> C translation drill.
     cpp_reference: str = ""
@@ -59,7 +60,7 @@ class Problem:
     compile_flags: list = field(default_factory=lambda: list(DEFAULT_COMPILE_FLAGS))
     compile_timeout_ms: int = 10000
     run_timeout_ms: int = 2000
-    output_cap_kb: int = 64
+    output_cap_kb: int = 1024
 
     @property
     def sample_tests(self):
@@ -82,6 +83,7 @@ class Pack:
     description: str
     language: str
     units: list = field(default_factory=list)
+    essentials: list = field(default_factory=list)   # problems, in study order
 
     @property
     def problems(self):
@@ -154,7 +156,7 @@ def _load_problem(problem_dir: Path, pack_id: str, unit_id: str, unit_title: str
         compile_flags=compile_cfg.get("flags", list(DEFAULT_COMPILE_FLAGS)),
         compile_timeout_ms=compile_cfg.get("timeout_ms", 10000),
         run_timeout_ms=run_cfg.get("timeout_ms", 2000),
-        output_cap_kb=run_cfg.get("output_cap_kb", 64),
+        output_cap_kb=run_cfg.get("output_cap_kb", 1024),
     )
 
 
@@ -196,6 +198,13 @@ class Content:
                     by_id[problem.id] = problem
                 if unit.problems:
                     pack.units.append(unit)
+            # The study path: pack.json lists problem ids in the order to do them.
+            for rank, pid in enumerate(pack_meta.get("essentials", []), start=1):
+                problem = by_id.get(pid)
+                if problem is None:
+                    raise ValueError(f"pack.json essentials: unknown problem {pid}")
+                problem.essential_rank = rank
+                pack.essentials.append(problem)
             if pack.units:
                 packs.append(pack)
         self.packs, self.by_id = packs, by_id
