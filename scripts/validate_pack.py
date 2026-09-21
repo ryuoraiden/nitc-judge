@@ -47,6 +47,30 @@ def check_cpp(problem) -> list[str]:
     return []
 
 
+def _norm(text: str) -> str:
+    return "\n".join(line.rstrip() for line in text.replace("\r\n", "\n").split("\n")).strip()
+
+
+def check_statement_examples(problem) -> list[str]:
+    """Examples in statements are typed by hand, so they can drift from the truth.
+    Any code block that is exactly a test's input must be followed by a block
+    holding exactly that test's expected output."""
+    import re
+    blocks = [b for lang, b in re.findall(r"```(\w*)\n(.*?)```", problem.statement, re.S)
+              if lang == ""]
+    by_input = {_norm(t.stdin): t for t in problem.tests}
+    errors = []
+    for i in range(len(blocks) - 1):
+        t = by_input.get(_norm(blocks[i]))
+        if t is None:
+            continue
+        shown, real = _norm(blocks[i + 1]), _norm(t.expected)
+        if shown != real:
+            errors.append(f"statement example for test {t.name} shows:\n{shown}\n"
+                          f"       but the reference prints:\n{real}")
+    return errors
+
+
 def check(problem) -> list[str]:
     errors: list[str] = []
 
@@ -63,6 +87,8 @@ def check(problem) -> list[str]:
         if t.expected.strip() == "" and not problem.allow_empty:
             errors.append(f"test {t.name}: expected output is empty "
                           "(did you forget to run gen_expected.py?)")
+
+    errors.extend(check_statement_examples(problem))
 
     ref = judge(problem, problem.solution)
     if ref.verdict != "AC":

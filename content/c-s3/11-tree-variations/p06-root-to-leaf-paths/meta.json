@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "backtracking"
+  ],
+  "estimated_minutes": 15,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Carry the depth down the recursion and store the key at path[depth]. When the call returns, the next sibling call overwrites that slot - so no explicit 'undo' is needed.",
+    "A leaf is a node with BOTH children NULL. Checking only 'root == NULL' prints every path twice (once per missing child).",
+    "Carry the running sum as a plain int parameter; each call gets its own copy, which is exactly the backtracking you want."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p01-traversals"
+  ],
+  "source": "Common binary-tree question",
+  "id": "c-s3.11-tree-variations.p06-root-to-leaf-paths",
+  "title": "Root-to-leaf paths and path sums",
+  "mode": "function"
+}

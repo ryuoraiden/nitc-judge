@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "floyd-warshall",
+    "all pairs shortest path",
+    "dynamic programming"
+  ],
+  "estimated_minutes": 15,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Three nested loops, and k must be the OUTERMOST. That order is the entire algorithm - swap it and it compiles, runs and gives wrong answers.",
+    "Convert 999 to a large INF when reading, and skip the update when either d[i][k] or d[k][j] is INF so you never add to infinity.",
+    "After the loops, a negative number on the diagonal means some vertex can reach itself with negative total cost - a negative cycle."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p01-dijkstra-matrix"
+  ],
+  "source": "DSA theory syllabus (not yet asked in lab)",
+  "id": "c-s3.10-graph-variations.p04-floyd-warshall",
+  "title": "Floyd-Warshall: all-pairs shortest paths",
+  "mode": "program"
+}

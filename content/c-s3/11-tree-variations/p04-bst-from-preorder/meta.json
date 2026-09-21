@@ -1,0 +1,22 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "traversal"
+  ],
+  "estimated_minutes": 15,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "For a BST, preorder alone determines the tree - unlike a general binary tree, which also needs the inorder.",
+    "The simplest correct rebuild: insert the preorder keys one by one into an empty BST. Every parent is inserted before its children, so each key lands exactly where it was.",
+    "Level order needs a queue of Node* - the unit 06 level-order code, printed on one line this time."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p01-insert-search"
+  ],
+  "source": "Classic BST reconstruction question",
+  "id": "c-s3.11-tree-variations.p04-bst-from-preorder",
+  "title": "Rebuild a BST from its preorder",
+  "mode": "program"
+}

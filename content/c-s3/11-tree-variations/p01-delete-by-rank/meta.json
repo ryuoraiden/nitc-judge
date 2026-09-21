@@ -1,0 +1,24 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "bst",
+    "deletion",
+    "order statistics"
+  ],
+  "estimated_minutes": 30,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Split it: kth(T, k, &count) returns the NODE of rank k, then the ordinary delete(T, x) removes it. Neither part is new.",
+    "Return the node pointer from the inorder search, not the key - the Week 2 delete takes a node, and searching for the key again wastes the work.",
+    "Delete the node before the next command, and remember ranks shift: after removing rank 1, the old rank 2 becomes rank 1."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p03-delete-transplant",
+    "c-s3.07-bst.p04-kth-successor-noparent"
+  ],
+  "source": "Reconstruction of the DSA Lab Week 2 modification question",
+  "id": "c-s3.11-tree-variations.p01-delete-by-rank",
+  "title": "Week 2 modification: delete by rank",
+  "mode": "program"
+}

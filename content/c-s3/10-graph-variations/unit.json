@@ -1,0 +1,4 @@
+{
+  "title": "Graph modification questions",
+  "description": "Standard algorithm plus a twist, the way the lab asks: Dijkstra's shortest-path tree, Prim with blocked edges, Bellman-Ford, Floyd-Warshall, heap Prim, and counting shortest paths."
+}

@@ -1,0 +1,23 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "dijkstra",
+    "counting",
+    "dynamic programming"
+  ],
+  "estimated_minutes": 18,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Keep a second array ways[] next to dist[]. ways[s] = 1.",
+    "On a strictly better distance, the old routes are all longer and no longer count: ways[v] = ways[u]. On an equal distance, these routes are extra shortest routes: ways[v] += ways[u].",
+    "It only works because u is finalised when you relax from it, so ways[u] is already complete. That is also why weights must be positive here."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p01-dijkstra-matrix"
+  ],
+  "source": "Common Dijkstra modification",
+  "id": "c-s3.10-graph-variations.p02-count-shortest-paths",
+  "title": "Dijkstra: how many shortest paths?",
+  "mode": "function"
+}

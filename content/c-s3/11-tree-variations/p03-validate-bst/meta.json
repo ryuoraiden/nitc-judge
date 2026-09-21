@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "validation",
+    "recursion"
+  ],
+  "estimated_minutes": 12,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "The trap: 'left child < node < right child' at every node is not enough. A key deep in the left subtree must also be smaller than every ANCESTOR it is left of.",
+    "Pass an allowed open interval (lo, hi) down the recursion. Left child gets (lo, node->key); right child gets (node->key, hi).",
+    "Use long long bounds starting outside the int range so that keys equal to INT_MIN or INT_MAX are not rejected by the sentinels."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p02-parse-notation"
+  ],
+  "source": "Classic BST question; uses the PD Lab 10 tree notation",
+  "id": "c-s3.11-tree-variations.p03-validate-bst",
+  "title": "Is this binary tree a BST?",
+  "mode": "function"
+}

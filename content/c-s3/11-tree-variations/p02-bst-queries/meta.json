@@ -1,0 +1,26 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "bst",
+    "lca",
+    "floor",
+    "ceil",
+    "range query"
+  ],
+  "estimated_minutes": 18,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "LCA in a BST needs no recursion into both sides: while a and b are both on the same side of root, move to that side. The first node where they split is the LCA.",
+    "floor: every time you step RIGHT, the node you leave is <= x - a candidate. Remember the latest candidate; it is the answer when you fall off the tree.",
+    "printRange prunes: only descend left when root->key > lo, and right when root->key < hi. Without pruning it is still correct, just O(n)."
+  ],
+  "prereqs": [
+    "c-s3.07-bst.p04-kth-successor-noparent"
+  ],
+  "source": "Standard BST questions (the ordering lets each walk ONE path)",
+  "allow_empty": false,
+  "id": "c-s3.11-tree-variations.p02-bst-queries",
+  "title": "BST queries: LCA, floor, ceil, range",
+  "mode": "function"
+}

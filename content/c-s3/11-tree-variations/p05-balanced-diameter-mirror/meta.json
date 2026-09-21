@@ -1,0 +1,23 @@
+{
+  "difficulty": "medium",
+  "topics": [
+    "binary tree",
+    "recursion",
+    "height"
+  ],
+  "estimated_minutes": 20,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Both isBalanced and diameter are height() with extra work at each node. Compute the two child heights once and use them twice.",
+    "isBalanced: return -1 from the height helper the moment any subtree is unbalanced, and propagate it. That keeps it O(n).",
+    "diameter: the longest path bends at some node. At each node, leftHeight + rightHeight is the length in edges of the best path bending there; keep the maximum in an int passed by pointer."
+  ],
+  "prereqs": [
+    "c-s3.06-binary-tree.p03-height-size-leaves"
+  ],
+  "source": "The three most common binary-tree recursion questions",
+  "id": "c-s3.11-tree-variations.p05-balanced-diameter-mirror",
+  "title": "Balanced? Diameter? Mirror it.",
+  "mode": "function"
+}

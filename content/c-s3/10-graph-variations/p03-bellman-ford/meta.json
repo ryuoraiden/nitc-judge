@@ -1,0 +1,23 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "bellman-ford",
+    "shortest path",
+    "negative weights"
+  ],
+  "estimated_minutes": 20,
+  "samples": 1,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "Store the graph as an edge list - Bellman-Ford loops over edges, never over vertices' neighbours.",
+    "Skip any edge whose tail is still INF. INF + (-3) is a smaller number than INF, so without the check 'unreachable' vertices slowly start looking reachable.",
+    "A negative cycle that s cannot reach does not affect any distance from s, and the INF check is exactly what stops it from being reported. Test 3 has that case."
+  ],
+  "prereqs": [
+    "c-s3.05-dijkstra.p05-negative-cycle"
+  ],
+  "source": "DSA theory syllabus; Week 4 Q3 is the same algorithm on a grid",
+  "id": "c-s3.10-graph-variations.p03-bellman-ford",
+  "title": "Bellman-Ford: distances with negative edges",
+  "mode": "program"
+}

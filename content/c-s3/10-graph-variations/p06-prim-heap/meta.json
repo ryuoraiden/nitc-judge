@@ -1,0 +1,25 @@
+{
+  "difficulty": "hard",
+  "topics": [
+    "mst",
+    "prim",
+    "heap",
+    "priority queue"
+  ],
+  "estimated_minutes": 15,
+  "samples": 2,
+  "compare": "trim-trailing-ws",
+  "hints": [
+    "It is the heap Dijkstra from unit 05 with one change: the key you push is the edge cost alone, not dist[u] + cost.",
+    "Lazy deletion again: a vertex may be in the heap several times with different keys. The first time it comes out is the cheapest; skip it on every later pop with 'if (inTree[u]) continue;'.",
+    "Count how many vertices actually joined. Fewer than n means disconnected."
+  ],
+  "prereqs": [
+    "c-s3.09-mst.p03-prim-matrix",
+    "c-s3.05-dijkstra.p04-dijkstra-heap"
+  ],
+  "source": "DSA theory: 'implementation of Prim's and Dijkstra's algorithms using priority queues'",
+  "id": "c-s3.10-graph-variations.p06-prim-heap",
+  "title": "Prim with a priority queue",
+  "mode": "function"
+}
