@@ -18,6 +18,19 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{BASE_DIR / 'instance' / 'ju
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+# Without this, browsers cache static files indefinitely (Flask sends no
+# Cache-Control for them) and keep running an old judge.js after an update.
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
+
+
+@app.template_global()
+def asset(filename: str) -> str:
+    """Static URL with the file's mtime attached, so a changed file is a new URL."""
+    path = BASE_DIR / "static" / filename
+    stamp = int(path.stat().st_mtime) if path.exists() else 0
+    return url_for("static", filename=filename, v=stamp)
+
+
 (BASE_DIR / "instance").mkdir(exist_ok=True)
 db.init_app(app)
 content = Content()
