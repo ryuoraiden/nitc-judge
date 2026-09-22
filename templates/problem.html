@@ -111,7 +111,7 @@
         <span class="lang-tag">C</span>
         <span class="editor-hint">
           {% if problem.mode == 'function' %}implementation only &mdash; no main(){% else %}whole program including main(){% endif %}
-          &nbsp;&middot;&nbsp; Ctrl+Enter run &middot; Ctrl+Shift+Enter submit
+          &nbsp;&middot;&nbsp; Ctrl+Enter run &middot; Ctrl+Shift+Enter submit &middot; Ctrl+/ comment
         </span>
       </div>
       <div class="editor-wrap"><textarea id="code" spellcheck="false">{{ code }}</textarea></div>
@@ -150,6 +150,10 @@ window.JUDGE = {
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/comment/comment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
 <script src="{{ url_for('static', filename='judge.js') }}"></script>
 </body>
 </html>

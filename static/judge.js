@@ -11,29 +11,96 @@
   /* ---------- editor ---------- */
   // CodeMirror comes from a CDN; if it is unreachable the plain textarea below
   // is still a perfectly usable editor, so the page degrades instead of breaking.
+  var INDENT = 4;
+  var PAIRS = { "{": "}", "(": ")", "[": "]" };
+
+  // Tab: indent the selected lines, or pad to the next tab stop.
+  function smartTab(cm) {
+    if (cm.somethingSelected()) { cm.indentSelection("add"); return; }
+    var col = cm.getCursor().ch;
+    cm.replaceSelection(" ".repeat(INDENT - (col % INDENT)));
+  }
+
+  // Backspace in leading whitespace removes a whole indent level, not one space.
+  // Anything else (including deleting an auto-closed pair) falls through.
+  function smartBackspace(cm) {
+    if (cm.somethingSelected()) return CodeMirror.Pass;
+    var cur = cm.getCursor();
+    var before = cm.getLine(cur.line).slice(0, cur.ch);
+    if (before.length === 0 || !/^ +$/.test(before)) return CodeMirror.Pass;
+    var del = before.length % INDENT || INDENT;
+    cm.replaceRange("", CodeMirror.Pos(cur.line, cur.ch - del), cur);
+  }
+
+  // Enter (and Shift+Enter, which LeetCode treats the same) between a bracket
+  // pair opens it up:  {|}  ->  {\n    |\n}
+  function smartEnter(cm) {
+    if (cm.somethingSelected()) { cm.execCommand("newlineAndIndent"); return; }
+    var cur = cm.getCursor();
+    var line = cm.getLine(cur.line);
+    var prev = line.charAt(cur.ch - 1), next = line.charAt(cur.ch);
+    if (PAIRS[prev] && PAIRS[prev] === next) {
+      cm.operation(function () {
+        cm.replaceSelection("\n\n", "start");
+        cm.indentLine(cur.line + 1, "smart");
+        cm.indentLine(cur.line + 2, "smart");
+        cm.setCursor(CodeMirror.Pos(cur.line + 1, cm.getLine(cur.line + 1).length));
+      });
+      return;
+    }
+    cm.execCommand("newlineAndIndent");
+  }
+
   if (window.CodeMirror) {
     editor = CodeMirror.fromTextArea(textarea, {
       mode: "text/x-csrc",
       theme: "material-darker",
       lineNumbers: true,
-      indentUnit: 4,
-      tabSize: 4,
+      indentUnit: INDENT,
+      tabSize: INDENT,
       indentWithTabs: false,
-      matchBrackets: true,
+      smartIndent: true,          // indent after {, dedent when you type }
+      electricChars: true,
+      matchBrackets: true,        // highlight the partner of the bracket at the cursor
+      autoCloseBrackets: true,    // ( [ { " ' close themselves; typing the closer skips over it
+      styleActiveLine: true,
       autofocus: true,
       extraKeys: {
         "Ctrl-Enter": function () { doRun(); },
         "Ctrl-Shift-Enter": function () { doSubmit(); },
-        Tab: function (cm) { cm.replaceSelection("    "); }
+        "Enter": smartEnter,
+        "Shift-Enter": smartEnter,
+        "Tab": smartTab,
+        "Shift-Tab": function (cm) { cm.indentSelection("subtract"); },
+        "Backspace": smartBackspace,
+        "Ctrl-/": "toggleComment",
+        "Cmd-/": "toggleComment",
+        "Ctrl-]": function (cm) { cm.indentSelection("add"); },
+        "Ctrl-[": function (cm) { cm.indentSelection("subtract"); }
       }
     });
   } else {
+    // No CDN: a plain textarea with the two helpers that matter most.
     textarea.addEventListener("keydown", function (e) {
-      if (e.key === "Tab") {
+      var s = textarea.selectionStart, end = textarea.selectionEnd, v = textarea.value;
+      var lineStart = v.lastIndexOf("\n", s - 1) + 1;
+      if (e.key === "Tab" && !e.shiftKey) {
         e.preventDefault();
-        var s = textarea.selectionStart;
-        textarea.value = textarea.value.slice(0, s) + "    " + textarea.value.slice(textarea.selectionEnd);
-        textarea.selectionStart = textarea.selectionEnd = s + 4;
+        var pad = " ".repeat(INDENT - ((s - lineStart) % INDENT));
+        textarea.value = v.slice(0, s) + pad + v.slice(end);
+        textarea.selectionStart = textarea.selectionEnd = s + pad.length;
+      } else if (e.key === "Enter" && !e.ctrlKey) {
+        e.preventDefault();
+        var indent = v.slice(lineStart, s).match(/^ */)[0];
+        if (/[{(\[]\s*$/.test(v.slice(lineStart, s))) indent += " ".repeat(INDENT);
+        textarea.value = v.slice(0, s) + "\n" + indent + v.slice(end);
+        textarea.selectionStart = textarea.selectionEnd = s + 1 + indent.length;
+      } else if (e.key === "Backspace" && s === end && s > lineStart &&
+                 /^ +$/.test(v.slice(lineStart, s))) {
+        e.preventDefault();
+        var del = (s - lineStart) % INDENT || INDENT;
+        textarea.value = v.slice(0, s - del) + v.slice(s);
+        textarea.selectionStart = textarea.selectionEnd = s - del;
       }
     });
   }
